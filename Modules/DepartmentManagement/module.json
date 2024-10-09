@@ -1,0 +1,11 @@
+{
+    "name": "DepartmentManagement",
+    "alias": "departmentmanagement",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\DepartmentManagement\\Providers\\DepartmentManagementServiceProvider"
+    ],
+    "files": []
+}

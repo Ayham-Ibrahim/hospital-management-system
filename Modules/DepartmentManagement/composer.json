@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/departmentmanagement",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\DepartmentManagement\\": "app/",
+            "Modules\\DepartmentManagement\\Database\\Factories\\": "database/factories/",
+            "Modules\\DepartmentManagement\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\DepartmentManagement\\Tests\\": "tests/"
+        }
+    }
+}
