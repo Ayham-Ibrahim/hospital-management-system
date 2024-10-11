@@ -5,13 +5,11 @@ namespace Modules\DoctorManagement\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use  Modules\DoctorManagement\Models\Doctor;
-use Modules\DoctorManagement\Traits\HttpResponses;
 use Modules\DoctorManagement\Http\Requests\DoctorStoreRequest;
 use Modules\DoctorManagement\Http\Requests\DoctorUpdateRequest;
 
 class DoctorManagementController extends Controller
 {
-    use HttpResponses;
 
     public function index()
     {
