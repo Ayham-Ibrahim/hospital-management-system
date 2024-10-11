@@ -6,11 +6,10 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Services\ApiResponseService;
 use Modules\DepartmentManagement\Models\Department;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Modules\DepartmentManagement\Http\Requests\Department\StoreDepartmentRequest;
 use Modules\DepartmentManagement\Http\Requests\Department\UpdateDepartmentRequest;
+use Modules\DepartmentManagement\Http\Requests\Department\StoreDepartmentRequest;
 
 class DepartmentController extends Controller
 {
@@ -20,7 +19,7 @@ class DepartmentController extends Controller
     public function index()
     {
         $deparments = Department::all();
-        return ApiResponseService::success($deparments);
+        return $this->success($deparments);
     }
 
     /**
@@ -29,7 +28,7 @@ class DepartmentController extends Controller
     public function store(StoreDepartmentRequest $request)
     {
         $department = Department::create($request->validated());
-        return ApiResponseService::success($department,"created successfully",201);
+        return $this->success($department, "created successfully", 201);
     }
 
     /**
@@ -38,21 +37,20 @@ class DepartmentController extends Controller
     public function show(Department $department)
     {
         try {
-            return ApiResponseService::success($department);
+            return $this->success($department);
         } catch (ModelNotFoundException $e) {
-            Log::error('departemt not found'.$e->getmessage());
+            Log::error('departemt not found' . $e->getmessage());
             throw new Exception("Depatrment not found");
         }
-
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDepartmentRequest $request,Department $department)
+    public function update(UpdateDepartmentRequest $request, Department $department)
     {
         $department->update(array_filter($request->validated()));
-        return ApiResponseService::success($department);
+        return $this->success($department);
     }
 
     /**
@@ -62,11 +60,10 @@ class DepartmentController extends Controller
     {
         try {
             $department->delete();
-            return ApiResponseService::success(null,'department deleted successfully',200);
+            return $this->success(null, 'department deleted successfully', 200);
         } catch (ModelNotFoundException $e) {
-            Log::error('departemt not found'.$e->getmessage());
+            Log::error('departemt not found' . $e->getmessage());
             throw new Exception("Depatrment not found");
-            
         }
     }
 }

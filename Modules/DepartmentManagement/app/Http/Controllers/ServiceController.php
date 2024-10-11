@@ -20,7 +20,7 @@ class ServiceController extends Controller
     public function index()
     {
         $services = Service::all();
-        return ApiResponseService::success($services);
+        return $this->success($services);
     }
 
     /**
@@ -29,7 +29,7 @@ class ServiceController extends Controller
     public function store(StoreServiceRequest $request)
     {
         $service = Service::create($request->validated());
-        return ApiResponseService::success($service,"created successfully",201);
+        return $this->success($service, "created successfully", 201);
     }
 
     /**
@@ -38,9 +38,9 @@ class ServiceController extends Controller
     public function show(Service $service)
     {
         try {
-            return ApiResponseService::success($service);
+            return $this->success($service);
         } catch (ModelNotFoundException $e) {
-            Log::error('room not found'.$e->getmessage());
+            Log::error('room not found' . $e->getmessage());
             throw new Exception("room not found");
         }
     }
@@ -48,10 +48,10 @@ class ServiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateServiceRequest $request,Service $service)
+    public function update(UpdateServiceRequest $request, Service $service)
     {
         $service->update(array_filter($request->validated()));
-        return ApiResponseService::success($service);
+        return $this->success($service);
     }
 
     /**
@@ -61,11 +61,10 @@ class ServiceController extends Controller
     {
         try {
             $service->delete();
-            return ApiResponseService::success(null,'service deleted successfully',200);
+            return $this->success(null, 'service deleted successfully', 200);
         } catch (ModelNotFoundException $e) {
-            Log::error('service not found'.$e->getmessage());
+            Log::error('service not found' . $e->getmessage());
             throw new Exception("service not found");
-            
         }
     }
 }

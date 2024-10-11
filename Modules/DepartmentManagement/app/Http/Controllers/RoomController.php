@@ -20,7 +20,7 @@ class RoomController extends Controller
     public function index()
     {
         $rooms = Room::all();
-        return ApiResponseService::success($rooms);
+        return $this->success($rooms);
     }
 
     /**
@@ -29,7 +29,7 @@ class RoomController extends Controller
     public function store(StoreRoomRequest $request)
     {
         $room = Room::create($request->validated());
-        return ApiResponseService::success($room,"created successfully",201);
+        return $this->success($room, "created successfully", 201);
     }
 
     /**
@@ -38,9 +38,9 @@ class RoomController extends Controller
     public function show(Room $room)
     {
         try {
-            return ApiResponseService::success($room);
+            return $this->success($room);
         } catch (ModelNotFoundException $e) {
-            Log::error('room not found'.$e->getmessage());
+            Log::error('room not found' . $e->getmessage());
             throw new Exception("room not found");
         }
     }
@@ -48,10 +48,10 @@ class RoomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRoomRequest $request,Room $room)
+    public function update(UpdateRoomRequest $request, Room $room)
     {
         $room->update(array_filter($request->validated()));
-        return ApiResponseService::success($room);
+        return $this->success($room);
     }
 
     /**
@@ -61,11 +61,10 @@ class RoomController extends Controller
     {
         try {
             $room->delete();
-            return ApiResponseService::success(null,'room deleted successfully',200);
+            return $this->success(null, 'room deleted successfully', 200);
         } catch (ModelNotFoundException $e) {
-            Log::error('room not found'.$e->getmessage());
+            Log::error('room not found' . $e->getmessage());
             throw new Exception("room not found");
-            
         }
     }
 }
