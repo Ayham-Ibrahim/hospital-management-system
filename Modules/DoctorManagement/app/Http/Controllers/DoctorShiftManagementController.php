@@ -5,14 +5,12 @@ namespace Modules\DoctorManagement\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Modules\DoctorManagement\Models\Doctor;
 use Modules\DoctorManagement\Models\DoctorShift;
-use Modules\DoctorManagement\Traits\HttpResponses;
 use Modules\DoctorManagement\Http\Requests\DoctorShiftStoreRequest;
 use Modules\DoctorManagement\Http\Requests\DoctorShiftUpdateRequest;
 use Illuminate\Http\Request;
 
 class DoctorShiftManagementController extends Controller
 {
-    use HttpResponses;
 
     public function index()
     {
@@ -24,9 +22,6 @@ class DoctorShiftManagementController extends Controller
     {
         $doctorShift = DoctorShift::create($request->validated());
         return $this->success([$doctorShift], 201);
-
-        // $doctorShift = $doctor->shifts()->create($request->validated());
-        // return $this->success([$doctorShift], 201);
     }
 
     public function show(DoctorShift $doctorShift)
