@@ -6,10 +6,12 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use Modules\DepartmentManagement\Models\Department;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Modules\DepartmentManagement\Http\Requests\Department\UpdateDepartmentRequest;
+use Modules\DepartmentManagement\Transformers\Department\DepartmentResource;
 use Modules\DepartmentManagement\Http\Requests\Department\StoreDepartmentRequest;
+use Modules\DepartmentManagement\Http\Requests\Department\UpdateDepartmentRequest;
 
 class DepartmentController extends Controller
 {
@@ -18,8 +20,13 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $deparments = Department::all();
-        return $this->success($deparments);
+        $departments = Department::with(['rooms','doctors'])->paginate(10);
+        // $departments = Cache::remember('departments_paginated', 60 * 60, function () {
+        //     return Department::select('id', 'name', 'description', 'phone_number')
+        //         ->with(['rooms:id,department_id','doctors:id,department_id,name'])
+        //         ->paginate(10);
+        // });
+        return $this->paginated(DepartmentResource::collection($departments));
     }
 
     /**
@@ -28,7 +35,8 @@ class DepartmentController extends Controller
     public function store(StoreDepartmentRequest $request)
     {
         $department = Department::create($request->validated());
-        return $this->success($department, "created successfully", 201);
+        $department->select('id', 'name', 'description', 'phone_number');
+        return $this->success(new DepartmentResource($department), "created successfully", 201);
     }
 
     /**
@@ -37,7 +45,7 @@ class DepartmentController extends Controller
     public function show(Department $department)
     {
         try {
-            return $this->success($department);
+            return $this->success(new DepartmentResource($department));
         } catch (ModelNotFoundException $e) {
             Log::error('departemt not found' . $e->getmessage());
             throw new Exception("Depatrment not found");
@@ -50,7 +58,7 @@ class DepartmentController extends Controller
     public function update(UpdateDepartmentRequest $request, Department $department)
     {
         $department->update(array_filter($request->validated()));
-        return $this->success($department);
+        return $this->success(new DepartmentResource($department));
     }
 
     /**

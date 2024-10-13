@@ -13,7 +13,7 @@ class UpdateServiceRequest extends FormRequest
     {
         return [
             'name'          =>['nullable','string','min:2','max:20'],
-            'descripttion'  =>['nullable','string','min:2','max:255'],
+            'description'  =>['nullable','string','min:2','max:255'],
             'department_id' =>['nullable','exists:departments,id'],
         ];
     }

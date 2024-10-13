@@ -13,7 +13,7 @@ class UpdateDepartmentRequest extends FormRequest
     {
         return [
             'name' =>['nullable','string','min:2','max:20'],
-            'descripttion' =>['nullable','string','min:2','max:255'],
+            'description' =>['nullable','string','min:2','max:255'],
             'phone_number' =>['nullable','numeric','regex:/[0-9]{7}/'],
         ];
     }

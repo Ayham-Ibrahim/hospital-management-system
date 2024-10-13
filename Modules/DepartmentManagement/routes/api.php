@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\DepartmentManagement\Http\Controllers\DepartmentManagementController;
+use Modules\DepartmentManagement\Http\Controllers\DepartmentController;
+use Modules\DepartmentManagement\Http\Controllers\RoomController;
+use Modules\DepartmentManagement\Http\Controllers\ServiceController;
 
 /*
  *--------------------------------------------------------------------------
@@ -14,6 +16,8 @@ use Modules\DepartmentManagement\Http\Controllers\DepartmentManagementController
  *
 */
 
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::apiResource('departmentmanagement', DepartmentManagementController::class)->names('departmentmanagement');
-});
+
+Route::apiResource('departments',DepartmentController::class);
+Route::apiResource('rooms',RoomController::class);
+Route::apiResource('services',ServiceController::class);
+

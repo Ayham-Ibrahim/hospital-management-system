@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\DepartmentManagement\Http\Controllers\DepartmentManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +12,3 @@ use Modules\DepartmentManagement\Http\Controllers\DepartmentManagementController
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::group([], function () {
-    Route::resource('departmentmanagement', DepartmentManagementController::class)->names('departmentmanagement');
-});

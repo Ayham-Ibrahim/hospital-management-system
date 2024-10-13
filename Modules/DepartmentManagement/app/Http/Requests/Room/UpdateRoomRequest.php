@@ -13,7 +13,7 @@ class UpdateRoomRequest extends FormRequest
     {
         return [
             'room_number'   => 'nullable|numeric|max:255|unique:rooms',
-            'status'        => 'nullable|string|max:50',
+            'status'        => 'nullable|string|in:occupied,vacant,Under Maintenance',
             'type'          => 'nullable|string|in:general,ICU,surgical',
             'beds_number'   => 'nullable|integer|min:1|max:7',
             'department_id' => 'nullable|exists:departments,id',

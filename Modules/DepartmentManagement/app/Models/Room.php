@@ -24,7 +24,7 @@ class Room extends Model
 
     
     /**
-     *  return room that the service is belongs to it
+     *  return department that the room is belongs to it
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function department(){

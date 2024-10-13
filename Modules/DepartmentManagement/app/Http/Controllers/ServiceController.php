@@ -11,6 +11,7 @@ use Modules\DepartmentManagement\Models\Service;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Modules\DepartmentManagement\Http\Requests\Services\StoreServiceRequest;
 use Modules\DepartmentManagement\Http\Requests\Services\UpdateServiceRequest;
+use Modules\DepartmentManagement\Transformers\Service\ServicesResource;
 
 class ServiceController extends Controller
 {
@@ -19,8 +20,8 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $services = Service::all();
-        return $this->success($services);
+        $services = Service::paginate(10);
+        return $this->paginated(ServicesResource::collection($services));
     }
 
     /**
@@ -29,7 +30,7 @@ class ServiceController extends Controller
     public function store(StoreServiceRequest $request)
     {
         $service = Service::create($request->validated());
-        return $this->success($service, "created successfully", 201);
+        return $this->success(new ServicesResource($service), "created successfully", 201);
     }
 
     /**
@@ -38,7 +39,8 @@ class ServiceController extends Controller
     public function show(Service $service)
     {
         try {
-            return $this->success($service);
+            $service->load('department');
+            return $this->success(new ServicesResource($service));
         } catch (ModelNotFoundException $e) {
             Log::error('room not found' . $e->getmessage());
             throw new Exception("room not found");
@@ -51,7 +53,7 @@ class ServiceController extends Controller
     public function update(UpdateServiceRequest $request, Service $service)
     {
         $service->update(array_filter($request->validated()));
-        return $this->success($service);
+        return $this->success(new ServicesResource($service));
     }
 
     /**

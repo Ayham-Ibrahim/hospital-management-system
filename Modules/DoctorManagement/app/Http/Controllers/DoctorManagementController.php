@@ -2,9 +2,10 @@
 
 namespace Modules\DoctorManagement\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use  Modules\DoctorManagement\Models\Doctor;
+use Modules\DoctorManagement\Transformers\DoctorResource;
 use Modules\DoctorManagement\Http\Requests\DoctorStoreRequest;
 use Modules\DoctorManagement\Http\Requests\DoctorUpdateRequest;
 
@@ -13,8 +14,8 @@ class DoctorManagementController extends Controller
 
     public function index()
     {
-        $doctors = Doctor::all();
-        return $this->success(['data' => $doctors]);
+        $doctors = Doctor::paginate(10);
+        return $this->paginated(DoctorResource::collection($doctors));
     }
 
 
@@ -23,17 +24,18 @@ class DoctorManagementController extends Controller
         $doctor = Doctor::create($request->validated());
 
         if ($request->hasFile('image')) {
-            $doctor->image = $request->file('image')->store('public/doctors');
+            $doctor->image = $request->file('image')->store('doctors', 'public');
             $doctor->save();
         }
 
-        return $this->success(['data' => $doctor], 201);
+        return $this->success(new DoctorResource($doctor), 201);
     }
 
 
     public function show(Doctor $doctor)
     {
-        return $this->success(['data' => $doctor]);
+        $doctor->load('department');
+        return $this->success(new DoctorResource($doctor));
     }
 
 
@@ -42,11 +44,11 @@ class DoctorManagementController extends Controller
 
         $doctor->update($request->validated());
         if ($request->hasFile('image')) {
-            $doctor->image = $request->file('image')->store('public/doctors');
+            $doctor->image = $request->file('image')->store('doctors', 'public');
             $doctor->save();
         }
 
-        return $this->success(['data' => $doctor]);
+        return $this->success(new DoctorResource($doctor));
     }
 
 
