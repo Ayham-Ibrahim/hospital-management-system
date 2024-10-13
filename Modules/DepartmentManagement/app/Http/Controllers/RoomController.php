@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Services\ApiResponseService;
 use Modules\DepartmentManagement\Models\Room;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Modules\DepartmentManagement\Transformers\Room\RoomResource;
 use Modules\DepartmentManagement\Http\Requests\Room\StoreRoomRequest;
 use Modules\DepartmentManagement\Http\Requests\Room\UpdateRoomRequest;
 
@@ -19,8 +20,8 @@ class RoomController extends Controller
      */
     public function index()
     {
-        $rooms = Room::all();
-        return $this->success($rooms);
+        $rooms = Room::paginate(10);
+        return $this->paginated(RoomResource::collection($rooms));
     }
 
     /**
@@ -29,7 +30,7 @@ class RoomController extends Controller
     public function store(StoreRoomRequest $request)
     {
         $room = Room::create($request->validated());
-        return $this->success($room, "created successfully", 201);
+        return $this->success(new RoomResource($room), "created successfully", 201);
     }
 
     /**
@@ -38,7 +39,8 @@ class RoomController extends Controller
     public function show(Room $room)
     {
         try {
-            return $this->success($room);
+            $room->load('department');
+            return $this->success(new RoomResource($room));
         } catch (ModelNotFoundException $e) {
             Log::error('room not found' . $e->getmessage());
             throw new Exception("room not found");
@@ -51,7 +53,7 @@ class RoomController extends Controller
     public function update(UpdateRoomRequest $request, Room $room)
     {
         $room->update(array_filter($request->validated()));
-        return $this->success($room);
+        return $this->success(new RoomResource($room));
     }
 
     /**

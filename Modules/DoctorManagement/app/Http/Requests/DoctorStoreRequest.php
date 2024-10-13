@@ -14,7 +14,7 @@ class DoctorStoreRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'speciality' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'image' => 'required|image',
             'department_id' => 'required|exists:departments,id',
             'mobile_number' => 'required|string|max:20',
             'job_date' => 'required|date',

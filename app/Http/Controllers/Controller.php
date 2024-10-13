@@ -52,19 +52,22 @@ abstract class Controller
      * @return \Illuminate\Http\JsonResponse The JSON response.
      */
 
-    public static function paginated(LengthAwarePaginator $paginator, $message = 'Operation successful', $status = 200)
-    {
-        return response()->json([
+    public static function paginated($data,$message = 'Operation Success',$status = 200){
+        $paginator = $data->resource;
+        $resourceData = $data->items();
+
+        $array = [
             'status' => 'success',
-            'message' => trans($message),
-            'data' => $paginator->items(),
+            'message'=>trans($message),
+            'data'=>$resourceData,
             'pagination' => [
-                'total' => $paginator->total(),
-                'count' => $paginator->count(),
-                'per_page' => $paginator->perPage(),
+                'total'        => $paginator->total(),
+                'count'        => $paginator->count(),
+                'per_page'     => $paginator->perPage(),
                 'current_page' => $paginator->currentPage(),
-                'total_pages' => $paginator->lastPage(),
+                'total_pages'  => $paginator->lastPage(),
             ],
-        ], $status);
+        ];
+        return response()->json($array,$status);
     }
 }

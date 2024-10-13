@@ -13,7 +13,7 @@ class StoreServiceRequest extends FormRequest
     {
         return [
             'name'          =>['required','string','min:2','max:20'],
-            'descripttion'  =>['required','string','min:2','max:255'],
+            'description'  =>['required','string','min:2','max:255'],
             'department_id' =>['required','exists:departments,id'],
         ];
     }

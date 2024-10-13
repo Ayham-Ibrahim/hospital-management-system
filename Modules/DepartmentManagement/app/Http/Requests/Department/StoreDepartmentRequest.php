@@ -13,7 +13,7 @@ class StoreDepartmentRequest extends FormRequest
     {
         return [
             'name' =>['required','string','min:2','max:20'],
-            'descripttion' =>['required','string','min:2','max:255'],
+            'description' =>['required','string','min:2','max:255'],
             'phone_number' =>['required','numeric','regex:/[0-9]{7}/'],
         ];
     }
