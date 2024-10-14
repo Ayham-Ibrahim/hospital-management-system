@@ -2,5 +2,6 @@
     "Blog": true,
     "DepartmentManagemant": true,
     "DepartmentManagement": true,
-    "DoctorManagement": true
+    "DoctorManagement": true,
+    "PatientManagement": true
 }
