@@ -9,6 +9,7 @@ use Modules\DepartmentManagement\Database\Seeders\DepartmentSeeder;
 use Modules\DepartmentManagement\Models\Department;
 use Modules\DepartmentManagement\Models\Room;
 use Modules\DepartmentManagement\Models\Service;
+use Modules\PatientManagement\Models\Patient;
 use Modules\DoctorManagement\Models\Doctor;
 
 class DatabaseSeeder extends Seeder
@@ -20,10 +21,12 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
         Department::factory()->count(10)->create();
-        
+
         Room::factory()->count(10)->create();
 
         Service::factory()->count(10)->create();
+
+        Patient::factory()->count(10)->create();
 
         // Doctor::factory()->count(10)->create();
 
