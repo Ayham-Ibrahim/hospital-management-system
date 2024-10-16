@@ -17,7 +17,7 @@ abstract class Controller
      *
      *
      */
-    public static function success($data = null, $message = 'Operation Succeful', $status = 200)
+    public static function success($data = null, $message = 'Operation Successful', $status = 200)
     {
         return response()->json([
             "status" => 'succses',
@@ -52,14 +52,15 @@ abstract class Controller
      * @return \Illuminate\Http\JsonResponse The JSON response.
      */
 
-    public static function paginated($data,$message = 'Operation Success',$status = 200){
+    public static function paginated($data, $message = 'Operation Success', $status = 200)
+    {
         $paginator = $data->resource;
         $resourceData = $data->items();
 
         $array = [
             'status' => 'success',
-            'message'=>trans($message),
-            'data'=>$resourceData,
+            'message' => trans($message),
+            'data' => $resourceData,
             'pagination' => [
                 'total'        => $paginator->total(),
                 'count'        => $paginator->count(),
@@ -68,6 +69,6 @@ abstract class Controller
                 'total_pages'  => $paginator->lastPage(),
             ],
         ];
-        return response()->json($array,$status);
+        return response()->json($array, $status);
     }
 }

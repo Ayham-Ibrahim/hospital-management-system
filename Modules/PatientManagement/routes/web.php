@@ -14,3 +14,6 @@ use Modules\PatientManagement\Http\Controllers\PatientManagementController;
 |
 */
 
+Route::group([], function () {
+    Route::resource('patientmanagement', PatientManagementController::class)->names('patientmanagement');
+});
