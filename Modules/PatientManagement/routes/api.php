@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\PatientManagement\Http\Controllers\PatientManagementController;
+use Modules\PatientManagement\Models\MedicalRecord;
 use Modules\PatientManagement\Http\Controllers\PatientController;
+use Modules\PatientManagement\Http\Controllers\MedicalRecordController;
 
 /*
  *--------------------------------------------------------------------------
@@ -18,3 +19,6 @@ use Modules\PatientManagement\Http\Controllers\PatientController;
 
 Route::apiResource('patients', PatientController::class);
 Route::post('/patients/{patient}/services', [PatientController::class, 'storeServices']);
+
+
+Route::apiResource('medical-records', MedicalRecordController::class);

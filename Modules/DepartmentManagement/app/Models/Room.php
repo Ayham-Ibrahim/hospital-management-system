@@ -4,6 +4,7 @@ namespace Modules\DepartmentManagement\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Modules\DepartmentManagement\Models\Department;
+use Modules\PatientManagement\Models\MedicalRecord;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 // use Modules\DepartmentManagement\Database\Factories\RoomFactory;
 
@@ -30,4 +31,16 @@ class Room extends Model
     public function department(){
         return $this->belongsTo(Department::class);
     }
+
+
+    
+    /**
+     * Get the medical records that the room contains
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function medicalRecords()
+    {
+        return $this->hasMany(MedicalRecord::class);
+    }
+
 }
