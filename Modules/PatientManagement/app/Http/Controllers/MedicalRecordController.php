@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Modules\PatientManagement\Models\MedicalRecord;
 use Modules\PatientManagement\Http\Requests\MedicalRecordRequest;
+use Modules\PatientManagement\Models\Patient;
 use Modules\PatientManagement\Transformers\MedicalRecordResource;
 use Modules\PatientManagement\Http\Requests\MedicalRecord\StoreMedicalRecord;
 use Modules\PatientManagement\Http\Requests\MedicalRecord\UpdateMedicalRecord;
@@ -33,10 +34,12 @@ class MedicalRecordController extends Controller
     /**
      * Show the specified resource.
      */
-    public function show(MedicalRecord $medicalRecord)
+    public function show(Patient $patient)
     {
-        $medicalRecord->load(['doctor','room','patient']);
-        return $this->success(new MedicalRecordResource($medicalRecord));
+        // TODO :  id and name the doctor 
+        $medicalRecordS = MedicalRecord::where('patient_id',$patient->id)->get();
+        // $medicalRecord->load(['doctor','room','patient']);
+        return $this->success( MedicalRecordResource::collection($medicalRecordS));
     }
 
     /**
