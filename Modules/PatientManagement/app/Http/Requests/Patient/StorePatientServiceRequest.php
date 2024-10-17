@@ -13,7 +13,7 @@ class StorePatientServiceRequest extends FormRequest
     {
         return [
             'service_ids' => 'required|array',
-            'service_ids.*' => 'exists:services,id',
+            'service_ids.*' => 'integer|exists:services,id',
         ];
     }
 
