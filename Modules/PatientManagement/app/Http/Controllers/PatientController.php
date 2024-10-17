@@ -93,4 +93,9 @@ class PatientController extends Controller
         $patient->services()->sync($request->validated('service_ids'));
         return $this->success(new PatientResource($patient->load('services')), 'Services added successfully');
     }
+
+
+
+
+    // show services for specific patient
 }
