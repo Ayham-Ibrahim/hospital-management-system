@@ -3,9 +3,10 @@
 namespace Modules\PatientManagement\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Modules\PatientManagement\Http\Requests\Patient\storePatientRequest;
-use Modules\PatientManagement\Http\Requests\Patient\updatePatientRequest;
+use Modules\PatientManagement\Http\Requests\Patient\StorePatientRequest;
+use Modules\PatientManagement\Http\Requests\Patient\UpdatePatientRequest;
 use Modules\PatientManagement\Transformers\PatientResource;
+use Modules\PatientManagement\Http\Requests\Patient\StorePatientServiceRequest;
 use  Modules\DepartmentManagement\Models\Service;
 use Modules\PatientManagement\Models\Patient;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class PatientController extends Controller
     }
 
 
-    public function store(storePatientRequest $request)
+    public function store(StorePatientRequest $request)
     {
 
         $patient = Patient::create($request->validated());
@@ -34,9 +35,9 @@ class PatientController extends Controller
     }
 
 
-    public function update(updatePatientRequest $request, Patient $patient)
+    public function update(UpdatePatientRequest $request, Patient $patient)
     {
-        $patient->update($request->validated());
+        $patient->update(array_filter($request->validated()));
 
         return $this->success(new PatientResource($patient));
     }
@@ -46,5 +47,13 @@ class PatientController extends Controller
     {
         $patient->delete();
         return $this->success(null, 'patient deleted successfully', 200);
+    }
+
+    public function storeServices(StorePatientServiceRequest $request, Patient $patient)
+    {
+        // Attach the selected services to the patient
+        $patient->services()->attach($request->validated('service_ids'));
+
+        return $this->success(new PatientResource($patient->load('services')), 'Services added successfully');
     }
 }

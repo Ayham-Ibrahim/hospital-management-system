@@ -32,6 +32,6 @@ class Patient extends Model
 
     public function services()
     {
-        return $this->belongsToMany(Service::class, 'patient_services');
+        return $this->belongsToMany(Service::class, 'patient_service');
     }
 }

@@ -28,7 +28,7 @@ class Service extends Model
 
     public function patients()
     {
-        return $this->belongsToMany(Patient::class, 'patient_services');
+        return $this->belongsToMany(Patient::class, 'patient_service');
     }
 
     // protected static function newFactory(): ServiceFactory

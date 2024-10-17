@@ -4,6 +4,7 @@ namespace Modules\PatientManagement\Transformers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\DepartmentManagement\Transformers\Service\ServicesResource;
 
 class PatientResource extends JsonResource
 {
@@ -20,7 +21,7 @@ class PatientResource extends JsonResource
             'medical_description' => $this->medical_description,
             'address' => $this->address,
             'mobile_number' => $this->mobile_number,
-            'services' => ServiceResource::collection($this->whenLoaded('services')),
+            'services' => ServicesResource::collection($this->whenLoaded('services')),
         ];
     }
 }

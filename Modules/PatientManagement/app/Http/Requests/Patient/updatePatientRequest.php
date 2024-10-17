@@ -4,7 +4,7 @@ namespace Modules\PatientManagement\Http\Requests\Patient;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class updatePatientRequest extends FormRequest
+class UpdatePatientRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -12,12 +12,12 @@ class updatePatientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|required|string',
-            'birth_date' => 'sometimes|required|date',
-            'gender' => 'sometimes|required|in:male,female',
-            'medical_description' => 'sometimes|required|string',
-            'address' => 'sometimes|required|string',
-            'mobile_number' => 'sometimes|required|string',
+            'name' => 'nullable|string',
+            'birth_date' => 'nullable|date',
+            'gender' => 'nullable|in:male,female',
+            'medical_description' => 'nullable|string',
+            'address' => 'nullable|string',
+            'mobile_number' => 'nullable|string',
         ];
     }
 

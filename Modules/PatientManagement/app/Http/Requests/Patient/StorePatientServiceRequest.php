@@ -4,7 +4,7 @@ namespace Modules\PatientManagement\Http\Requests\Patient;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePatientRequest extends FormRequest
+class StorePatientServiceRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -12,12 +12,8 @@ class StorePatientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'birth_date' => 'required|date',
-            'gender' => 'required|string|in:male,female',
-            'medical_description' => 'required|string',
-            'address' => 'required|string',
-            'mobile_number' => 'required|string',
+            'service_ids' => 'required|array',
+            'service_ids.*' => 'exists:services,id',
         ];
     }
 
