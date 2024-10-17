@@ -15,6 +15,7 @@ class DoctorResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id'            => $this->id,
             'name'          => $this->name,
             'speciality'    => $this->speciality,
             'image'         => $this->image ? Storage::url($this->image) : null,  // Ensure the image is accessible
