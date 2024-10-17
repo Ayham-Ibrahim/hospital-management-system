@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\PatientManagement\Http\Controllers\PatientManagementController;
+use Modules\PatientManagement\Http\Controllers\PatientController;
 
 /*
  *--------------------------------------------------------------------------
@@ -14,3 +15,6 @@ use Modules\PatientManagement\Http\Controllers\PatientManagementController;
  *
 */
 
+
+Route::apiResource('patients', PatientController::class);
+Route::post('/patients/{patient}/services', [PatientController::class, 'storeServices']);
