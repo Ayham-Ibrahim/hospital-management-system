@@ -17,3 +17,4 @@ use Modules\PatientManagement\Http\Controllers\PatientController;
 
 
 Route::apiResource('patients', PatientController::class);
+Route::post('/patients/{patient}/services', [PatientController::class, 'storeServices']);
