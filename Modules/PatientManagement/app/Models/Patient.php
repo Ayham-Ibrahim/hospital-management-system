@@ -3,9 +3,11 @@
 namespace Modules\PatientManagement\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\PatientManagement\Database\Factories\PatientFactory;
 use Modules\DepartmentManagement\Models\Service;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Modules\PatientManagement\Database\Factories\PatientFactory;
 
 class Patient extends Model
 {
@@ -24,14 +26,31 @@ class Patient extends Model
         'address',
         'mobile_number'
     ];
+    
 
+    /**
+     * patient Factory
+     * @return \Modules\PatientManagement\Database\Factories\PatientFactory
+     */
     protected static function newFactory(): PatientFactory
     {
         return PatientFactory::new();
     }
 
-    public function services()
+    /**
+     * Summary of services
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function services(): BelongsToMany
     {
         return $this->belongsToMany(Service::class, 'patient_service');
+    }
+
+    /**
+     * get the patients medical records
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function medicalRecords(): HasMany{
+        return $this->hasMany(MedicalRecord::class);
     }
 }
