@@ -22,3 +22,4 @@ Route::post('/patients/{patient}/services', [PatientController::class, 'storeSer
 
 
 Route::apiResource('medical-records', MedicalRecordController::class);
+Route::get('/patient-records/{patient}', [MedicalRecordController::class, 'patientRecords']);
