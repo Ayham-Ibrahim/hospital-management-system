@@ -3,5 +3,6 @@
     "DepartmentManagemant": true,
     "DepartmentManagement": true,
     "DoctorManagement": true,
-    "PatientManagement": true
+    "PatientManagement": true,
+    "ScheduleManagement": true
 }
