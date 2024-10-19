@@ -62,7 +62,6 @@ class PatientController extends Controller
     public function update(UpdatePatientRequest $request, Patient $patient)
     {
         $patient->update(array_filter($request->validated()));
-
         return $this->success(new PatientResource($patient));
     }
 
