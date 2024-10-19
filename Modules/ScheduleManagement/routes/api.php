@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\ScheduleManagement\Http\Controllers\AppointmentController;
 use Modules\ScheduleManagement\Http\Controllers\SurjicalOperationController;
 
 /*
@@ -15,3 +16,4 @@ use Modules\ScheduleManagement\Http\Controllers\SurjicalOperationController;
 */
 
 Route::apiResource('surjical-operations', SurjicalOperationController::class);
+Route::apiResource('appointments', AppointmentController::class);
