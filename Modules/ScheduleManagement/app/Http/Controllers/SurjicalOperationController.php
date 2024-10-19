@@ -2,13 +2,12 @@
 
 namespace Modules\ScheduleManagement\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use  Modules\ScheduleManagement\Models\SurjicalOperation;
 use Modules\ScheduleManagement\Transformers\OperationResource;
 use Modules\ScheduleManagement\Http\Requests\Operation\StoreOperationRequest;
 use Modules\ScheduleManagement\Http\Requests\Operation\UpdateOperationRequest;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Http\Request;
 
 class SurjicalOperationController extends Controller
 {
@@ -24,11 +23,9 @@ class SurjicalOperationController extends Controller
         return $this->paginated(OperationResource::collection($operations));
     }
 
-
     /**
-     * Create a new SurjicalOperation record.
-     *
-     * @param  \Modules\ScheduleManagement\Http\Requests\StoreOperationtRequest  $request
+     * Summary of store
+     * @param \Modules\ScheduleManagement\Http\Requests\Operation\StoreOperationRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreOperationRequest $request)
@@ -51,17 +48,11 @@ class SurjicalOperationController extends Controller
         return $this->success(new OperationResource($operation));
     }
 
-    // public function show(SurjicalOperation $operation)
-    // {
-    //     return $this->success(new OperationResource($operation));
-    // }
-
 
     /**
-     * Update an existing  SurjicalOperation.
-     *
-     * @param  \Modules\ScheduleManagement\Http\Requests\UpdateOperationRequest  $request
-     * @param  \Modules\PatientManagement\Models\SurjicalOperation  $operation
+     * Summary of update
+     * @param \Modules\ScheduleManagement\Http\Requests\Operation\UpdateOperationRequest $request
+     * @param mixed $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateOperationRequest $request, $id)
