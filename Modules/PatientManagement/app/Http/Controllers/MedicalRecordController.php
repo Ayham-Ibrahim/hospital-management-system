@@ -34,12 +34,10 @@ class MedicalRecordController extends Controller
     /**
      * Show the specified resource.
      */
-    public function show(Patient $patient)
+    public function show(MedicalRecord $medicalRecord)
     {
-        // TODO :  id and name the doctor 
-        $medicalRecordS = MedicalRecord::where('patient_id',$patient->id)->get();
-        // $medicalRecord->load(['doctor','room','patient']);
-        return $this->success( MedicalRecordResource::collection($medicalRecordS));
+        $medicalRecord->load(['doctor','room','patient']);
+        return $this->success( new MedicalRecordResource($medicalRecord));
     }
 
     /**
@@ -58,7 +56,22 @@ class MedicalRecordController extends Controller
     public function destroy(MedicalRecord $medicalRecord)
     {
         $medicalRecord->delete();
-        return $this->success(null, 'medicalRecord deleted successfully', 200);
+        return $this->success( null, 'medicalRecord deleted successfully', 200);
 
+    }
+
+    /**
+     * get the patient records 
+     * @param \Modules\PatientManagement\Models\Patient $patient
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function patientRecords(Patient $patient){
+
+        // TODO :  id and name the doctor 
+        $medicalRecords = MedicalRecord::where('patient_id',$patient->id)
+            ->with(['doctor:id,name'])
+            ->get();
+
+     return $this->success( MedicalRecordResource::collection($medicalRecords));
     }
 }
