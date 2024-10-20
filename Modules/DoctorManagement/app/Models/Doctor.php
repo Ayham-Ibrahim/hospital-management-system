@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\DoctorManagement\Models\DoctorShift;
 use Modules\DepartmentManagement\Models\Department;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\PatientManagement\Models\MedicalRecord;
+use  Modules\ScheduleManagement\Models\SurjicalOperation;
 use Modules\DoctorManagement\Database\Factories\DoctorFactory;
-use Modules\ScheduleManagement\Models\SurjicalOperation;
 // use Modules\DoctorManagement\Database\Factories\DoctorFactory;
 
 class Doctor extends Model
@@ -27,11 +28,31 @@ class Doctor extends Model
         'job_date',
         'address',
         'salary',
+        'days',
+        'start_work',
+        'end_work'
     ];
 
+    protected $casts = [
+        'days' => 'array', // Cast 'days' to an array for easy manipulation
+    ];
+
+    /**
+     * get the doctor's shifts
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function shifts()
     {
         return $this->hasMany(DoctorShift::class);
+    }
+
+    /**
+     * Get the medical records that the doctor manages
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function medicalRecords()
+    {
+        return $this->hasMany(MedicalRecord::class);
     }
 
     /**

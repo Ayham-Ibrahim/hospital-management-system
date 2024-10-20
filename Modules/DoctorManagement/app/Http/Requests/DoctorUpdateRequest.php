@@ -12,14 +12,18 @@ class DoctorUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|required|string|max:255',
-            'speciality' => 'sometimes|required|string|max:255',
-            'image' => 'sometimes|required|image|mimes:jpg,jpeg,png|max:2048',
-            'department_id' => 'sometimes|required|exists:departments,id',
-            'mobile_number' => 'sometimes|required|string|max:20',
-            'job_date' => 'sometimes|required|date',
-            'address' => 'sometimes|required|string|max:255',
-            'salary' => 'sometimes|required|numeric',
+            'name' => 'nullable|string|max:255',
+            'speciality' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'department_id' => 'nullable|exists:departments,id',
+            'mobile_number' => 'nullable|string|max:20',
+            'job_date' => 'nullable|date',
+            'address' => 'nullable|string|max:255',
+            'salary' => 'nullable|numeric',
+            'days' => 'nullable|array',
+            'days.*' => 'nullable|string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
+            'start_work' => 'nullable|date_format:H:i',
+            'end_work' => 'nullable|date_format:H:i',
         ];
     }
 
