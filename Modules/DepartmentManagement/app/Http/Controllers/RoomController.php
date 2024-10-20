@@ -20,7 +20,7 @@ class RoomController extends Controller
      */
     public function index()
     {
-        $rooms = Room::paginate(10);
+        $rooms = Room::with('medicalRecords.patient')->paginate(10);
         return $this->paginated(RoomResource::collection($rooms));
     }
 
@@ -39,7 +39,7 @@ class RoomController extends Controller
     public function show(Room $room)
     {
         try {
-            $room->load('department');
+            $room->load(['department','medicalRecords.patient']);
             return $this->success(new RoomResource($room));
         } catch (ModelNotFoundException $e) {
             Log::error('room not found' . $e->getmessage());

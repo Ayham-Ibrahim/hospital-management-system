@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('patient_id')->constrained('patients');
             $table->foreignId('doctor_id')->constrained('doctors');
             $table->foreignId('room_id')->constrained('rooms');
-            $table->json('team'); // to store array of doctors
             $table->integer('duration'); // Duration in minutes
             $table->timestamp('schedule_date');
             $table->timestamps();

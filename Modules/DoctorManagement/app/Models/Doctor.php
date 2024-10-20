@@ -57,6 +57,10 @@ class Doctor extends Model
         return $this->belongsTo(Department::class);
     }
 
+    /**
+     *  surgical Operations that the doctor particepate in it 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function surgicalOperations()
     {
         return $this->belongsToMany(SurjicalOperation::class, 'doctor_surjical_operation');
