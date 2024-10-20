@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use Modules\ScheduleManagement\Http\Controllers\ScheduleManagementController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,8 @@ use Modules\ScheduleManagement\Http\Controllers\ScheduleManagementController;
 |
 */
 
+
 Route::group([], function () {
     Route::resource('schedulemanagement', ScheduleManagementController::class)->names('schedulemanagement');
 });
+

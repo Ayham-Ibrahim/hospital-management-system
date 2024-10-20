@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\DoctorManagement\Models\DoctorShift;
 use Modules\DepartmentManagement\Models\Department;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\DoctorManagement\Database\Factories\DoctorFactory;
+use Modules\ScheduleManagement\Models\SurjicalOperation;
 use Modules\PatientManagement\Models\MedicalRecord;
 use  Modules\ScheduleManagement\Models\SurjicalOperation;
 use Modules\DoctorManagement\Database\Factories\DoctorFactory;
@@ -63,6 +65,12 @@ class Doctor extends Model
     {
         return $this->belongsTo(Department::class);
     }
+
+
+    /**
+     *  surgical Operations that the doctor particepate in it 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
 
     public function surgicalOperations()
     {

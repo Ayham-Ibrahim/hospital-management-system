@@ -22,6 +22,24 @@ class OperationResource extends JsonResource
             'team' => $this->team,
             'duration' => $this->duration,
             'schedule_date' => $this->schedule_date,
+            'patient' => [
+                'id' => $this->patient->id,
+                'name' => $this->patient->name,
+            ],
+            'doctor' => [
+                'id' => $this->doctor->id,
+                'name' => $this->doctor->name,
+            ],
+            'room' => [
+                'id' => $this->room->id,
+                'name' => $this->room->room_number,
+            ],
+           'team' => $this->doctors->map(function ($doctor){
+                return [
+                    'id' => $doctor->id,
+                    'name' => $doctor->name,
+                ];
+           }),
         ];
     }
 }
