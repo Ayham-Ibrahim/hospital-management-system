@@ -13,13 +13,13 @@ class StoreOperationRequest extends FormRequest
     {
         return [
             'operation_name' => 'required|string|max:255',
-            'patient_id' => 'required|exists:patients,id',
-            'doctor_id' => 'required|exists:doctors,id',
-            'room_id' => 'required|exists:rooms,id',
-            'team' => 'required|array',
-            'team.*' => 'exists:doctors,id', // Ensure each doctor in the team exists
+            'patient_id' => 'required|integer|exists:patients,id',
+            'doctor_id' => 'required|integer|exists:doctors,id',
+            'room_id' => 'required|integer|exists:rooms,id',
             'duration' => 'required|integer|min:1',
-            'schedule_date' => 'required|date',
+            'schedule_date' => 'required|date|after_or_equal:today',
+            'doctor_ids'   => 'required|array',
+            'doctor_ids.*' => 'exists:doctors,id', 
         ];
     }
 

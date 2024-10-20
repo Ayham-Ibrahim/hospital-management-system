@@ -19,7 +19,16 @@ class RoomResource extends JsonResource
             'status'        => $this->status,
             'type'          => $this->type,
             'beds_number'   => $this->beds_number,
-            'department'    => new DepartmentResource($this->department),
+            'department'    => [
+                'id' => $this->department->id,
+                'name' => $this->department->name,
+            ],
+            'patients' => $this->medicalRecords->map(function ($record) {
+                return [
+                    'patient_id' => $record->patient->id,
+                    'patient_name' => $record->patient->name,
+                ];
+            }),
         ];
     }
 }

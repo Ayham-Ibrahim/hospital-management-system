@@ -1,7 +1,6 @@
 {
     "Blog": true,
     "DepartmentManagemant": true,
-    "DepartmentManagement": true,
     "DoctorManagement": true,
     "PatientManagement": true,
     "ScheduleManagement": true

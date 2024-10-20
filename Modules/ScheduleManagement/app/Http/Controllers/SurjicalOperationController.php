@@ -19,7 +19,7 @@ class SurjicalOperationController extends Controller
      */
     public function index()
     {
-        $operations = SurjicalOperation::paginate(10);
+        $operations = SurjicalOperation::with(['patient','doctor','room'])->paginate(10);
         return $this->paginated(OperationResource::collection($operations));
     }
 
@@ -30,7 +30,14 @@ class SurjicalOperationController extends Controller
      */
     public function store(StoreOperationRequest $request)
     {
-        $operation = SurjicalOperation::create($request->validated());
+        // Validate and retrieve the data from the request
+        $data = $request->validated();
+        $operation = SurjicalOperation::create($data);
+
+        // If doctor IDs are provided, attach the doctors to the operation
+        if($data['doctor_ids']){
+            $operation->doctors()->attach($data['doctor_ids']);
+        }
         return $this->success(new OperationResource($operation));
     }
 
@@ -38,33 +45,36 @@ class SurjicalOperationController extends Controller
     /**
      * Display a single SurjicalOperation along .
      *
-     * @param  \Modules\ScheduleManagement\Models\SurjicalOperation  $operation
+     * @param  \Modules\ScheduleManagement\Models\SurjicalOperation  $surjical_operation
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show(SurjicalOperation $surjical_operation)
     {
-        Log::info('Incoming ID:', ['id' => $id]);
-        $operation = SurjicalOperation::find($id);
-        return $this->success(new OperationResource($operation));
+        $surjical_operation->load(['patient','doctor','room']);
+        return $this->success(new OperationResource($surjical_operation));
     }
 
 
     /**
      * Summary of update
      * @param \Modules\ScheduleManagement\Http\Requests\Operation\UpdateOperationRequest $request
-     * @param mixed $id
+     * @param  \Modules\ScheduleManagement\Models\SurjicalOperation  $surjical_operation
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateOperationRequest $request, $id)
+    public function update(UpdateOperationRequest $request, SurjicalOperation $surjical_operation)
     {
-
-        // Find the surgical operation by ID
-        $operation = SurjicalOperation::find($id);
+        // Validate and retrieve the data from the request
+        $data = $request->validated();
 
         // Validate the request data
-        $operation->update(array_filter($request->validated()));
+        $surjical_operation->update(array_filter($request->validated()));
 
-        return $this->success(new OperationResource($operation));
+         // If doctor IDs are provided, attach the doctors to the surjical_operation
+         if($data['doctor_ids']){
+            $surjical_operation->doctors()->sync($data['doctor_ids']);
+        }
+
+        return $this->success(new OperationResource($surjical_operation));
     }
 
 
