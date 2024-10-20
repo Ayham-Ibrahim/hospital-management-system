@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+use Modules\ScheduleManagement\Http\Controllers\ScheduleManagementController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,3 +15,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+Route::group([], function () {
+    Route::resource('schedulemanagement', ScheduleManagementController::class)->names('schedulemanagement');
+});
+

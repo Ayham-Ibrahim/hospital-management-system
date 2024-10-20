@@ -20,6 +20,10 @@ class DoctorStoreRequest extends FormRequest
             'job_date' => 'required|date',
             'address' => 'required|string|max:255',
             'salary' => 'required|numeric',
+            'days' => 'required|array', // Days can be an array
+            'days.*' => 'required|string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday', // Validate each day
+            'start_work' => 'required|date_format:H:i',
+            'end_work' => 'required|date_format:H:i',
         ];
     }
 

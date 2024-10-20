@@ -20,6 +20,7 @@ class StoreOperationRequest extends FormRequest
             'schedule_date' => 'required|date|after_or_equal:today',
             'doctor_ids'   => 'required|array',
             'doctor_ids.*' => 'exists:doctors,id', 
+
         ];
     }
 

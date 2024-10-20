@@ -23,6 +23,9 @@ class DoctorResource extends JsonResource
             'job_date'      => $this->job_date,
             'address'       => $this->address,
             'salary'        => $this->salary,
+            'days'          => $this->days,
+            'start_work'    => $this->start_work,
+            'end_work'      => $this->end_work,
             'department'    => new DepartmentResource($this->department),
         ];
     }

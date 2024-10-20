@@ -12,6 +12,8 @@ class UpdateOperationRequest extends FormRequest
     public function rules(): array
     {
         return [
+
+       
             'operation_name' => 'nullable|integer|string|max:255',
             'patient_id'     => 'nullable|integer|exists:patients,id',
             'doctor_id'      => 'nullable|integer|exists:doctors,id',
@@ -20,6 +22,7 @@ class UpdateOperationRequest extends FormRequest
             'schedule_date'  => 'nullable|date|after_or_equal:today',
             'doctor_ids'   => 'nullable|array',
             'doctor_ids.*' => 'exists:doctors,id', 
+
         ];
     }
 

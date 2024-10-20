@@ -2,12 +2,16 @@
 
 namespace Modules\ScheduleManagement\Http\Controllers;
 
+
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use  Modules\ScheduleManagement\Models\SurjicalOperation;
 use Modules\ScheduleManagement\Transformers\OperationResource;
 use Modules\ScheduleManagement\Http\Requests\Operation\StoreOperationRequest;
 use Modules\ScheduleManagement\Http\Requests\Operation\UpdateOperationRequest;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+
 
 class SurjicalOperationController extends Controller
 {
@@ -19,9 +23,13 @@ class SurjicalOperationController extends Controller
      */
     public function index()
     {
-        $operations = SurjicalOperation::with(['patient','doctor','room'])->paginate(10);
+
+        $operations = SurjicalOperation::paginate(10);
         return $this->paginated(OperationResource::collection($operations));
     }
+
+
+  
 
     /**
      * Summary of store
@@ -30,6 +38,9 @@ class SurjicalOperationController extends Controller
      */
     public function store(StoreOperationRequest $request)
     {
+
+        $operation = SurjicalOperation::create($request->validated());
+
         // Validate and retrieve the data from the request
         $data = $request->validated();
         $operation = SurjicalOperation::create($data);
@@ -38,13 +49,17 @@ class SurjicalOperationController extends Controller
         if($data['doctor_ids']){
             $operation->doctors()->attach($data['doctor_ids']);
         }
+
         return $this->success(new OperationResource($operation));
     }
-
-
     /**
-     * Display a single SurjicalOperation along .
+     * Update an existing  SurjicalOperation.
      *
+     * @param  \Modules\ScheduleManagement\Http\Requests\UpdateOperationRequest  $request
+     * @param  \Modules\PatientManagement\Models\SurjicalOperation  $operation
+     * @return \Illuminate\Http\JsonResponse
+     */
+
      * @param  \Modules\ScheduleManagement\Models\SurjicalOperation  $surjical_operation
      * @return \Illuminate\Http\JsonResponse
      */

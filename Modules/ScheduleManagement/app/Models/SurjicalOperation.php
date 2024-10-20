@@ -21,14 +21,22 @@ class SurjicalOperation extends Model
         'patient_id',
         'doctor_id',
         'room_id',
+        'team',
         'duration',
         'schedule_date',
     ];
+
+
+    protected $casts = [
+        'team' => 'array',
+    ];
+
 
     /**
      *  patient who have the operation 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
+
     public function patient()
     {
         return $this->belongsTo(Patient::class);
@@ -47,10 +55,12 @@ class SurjicalOperation extends Model
      * surjecal room of the operation
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
+
     public function room()
     {
         return $this->belongsTo(Room::class);
     }
+
 
 
     /**
@@ -65,6 +75,7 @@ class SurjicalOperation extends Model
     {
         return $this->belongsToMany(Doctor::class, 'doctor_surjical_operation');
     }
+
 
 
     // protected static function newFactory(): SurjicalOperationFactory

@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\DoctorManagement\Database\Factories\DoctorFactory;
 use Modules\ScheduleManagement\Models\SurjicalOperation;
 use Modules\PatientManagement\Models\MedicalRecord;
+use  Modules\ScheduleManagement\Models\SurjicalOperation;
+use Modules\DoctorManagement\Database\Factories\DoctorFactory;
 // use Modules\DoctorManagement\Database\Factories\DoctorFactory;
 
 class Doctor extends Model
@@ -28,6 +30,13 @@ class Doctor extends Model
         'job_date',
         'address',
         'salary',
+        'days',
+        'start_work',
+        'end_work'
+    ];
+
+    protected $casts = [
+        'days' => 'array', // Cast 'days' to an array for easy manipulation
     ];
 
     /**
@@ -57,10 +66,12 @@ class Doctor extends Model
         return $this->belongsTo(Department::class);
     }
 
+
     /**
      *  surgical Operations that the doctor particepate in it 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
+
     public function surgicalOperations()
     {
         return $this->belongsToMany(SurjicalOperation::class, 'doctor_surjical_operation');
