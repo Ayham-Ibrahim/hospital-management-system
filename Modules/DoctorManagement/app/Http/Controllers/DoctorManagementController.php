@@ -17,8 +17,8 @@ class DoctorManagementController extends Controller
      */
     public function index()
     {
-        $doctors = Doctor::paginate(10);
-        return $this->paginated(DoctorResource::collection($doctors));
+        $doctors = Doctor::all();
+        return $this->success(DoctorResource::collection($doctors));
     }
 
     /**

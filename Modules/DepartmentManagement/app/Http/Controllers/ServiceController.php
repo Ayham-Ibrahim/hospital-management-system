@@ -20,8 +20,8 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $services = Service::paginate(10);
-        return $this->paginated(ServicesResource::collection($services));
+        $services = Service::all();
+        return $this->success(ServicesResource::collection($services));
     }
 
     /**

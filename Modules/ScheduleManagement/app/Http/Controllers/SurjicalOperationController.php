@@ -9,7 +9,6 @@ use  Modules\ScheduleManagement\Models\SurjicalOperation;
 use Modules\ScheduleManagement\Transformers\OperationResource;
 use Modules\ScheduleManagement\Http\Requests\Operation\StoreOperationRequest;
 use Modules\ScheduleManagement\Http\Requests\Operation\UpdateOperationRequest;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
 
@@ -52,17 +51,8 @@ class SurjicalOperationController extends Controller
 
         return $this->success(new OperationResource($operation));
     }
-    /**
-     * Update an existing  SurjicalOperation.
-     *
-     * @param  \Modules\ScheduleManagement\Http\Requests\UpdateOperationRequest  $request
-     * @param  \Modules\PatientManagement\Models\SurjicalOperation  $operation
-     * @return \Illuminate\Http\JsonResponse
-     */
+    
 
-     * @param  \Modules\ScheduleManagement\Models\SurjicalOperation  $surjical_operation
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function show(SurjicalOperation $surjical_operation)
     {
         $surjical_operation->load(['patient','doctor','room']);

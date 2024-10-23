@@ -10,9 +10,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\DoctorManagement\Database\Factories\DoctorFactory;
 use Modules\ScheduleManagement\Models\SurjicalOperation;
 use Modules\PatientManagement\Models\MedicalRecord;
-use  Modules\ScheduleManagement\Models\SurjicalOperation;
-use Modules\DoctorManagement\Database\Factories\DoctorFactory;
-// use Modules\DoctorManagement\Database\Factories\DoctorFactory;
 
 class Doctor extends Model
 {
