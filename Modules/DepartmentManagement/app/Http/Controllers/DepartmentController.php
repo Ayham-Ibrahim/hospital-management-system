@@ -20,13 +20,13 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = Department::with(['rooms','doctors'])->paginate(10);
+        $departments = Department::with(['rooms','doctors'])->get();
         // $departments = Cache::remember('departments_paginated', 60 * 60, function () {
         //     return Department::select('id', 'name', 'description', 'phone_number')
         //         ->with(['rooms:id,department_id','doctors:id,department_id,name'])
         //         ->paginate(10);
         // });
-        return $this->paginated(DepartmentResource::collection($departments));
+        return $this->success(DepartmentResource::collection($departments));
     }
 
     /**
