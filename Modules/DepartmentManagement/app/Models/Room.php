@@ -23,17 +23,18 @@ class Room extends Model
         'department_id',
     ];
 
-    
+
     /**
      *  return department that the room is belongs to it
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function department(){
+    public function department()
+    {
         return $this->belongsTo(Department::class);
     }
 
 
-    
+
     /**
      * Get the medical records that the room contains
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -42,5 +43,4 @@ class Room extends Model
     {
         return $this->hasMany(MedicalRecord::class);
     }
-
 }

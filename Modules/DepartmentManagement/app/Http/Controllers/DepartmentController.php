@@ -18,15 +18,30 @@ class DepartmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $departments = Department::with(['rooms','doctors'])->paginate(10);
-        // $departments = Cache::remember('departments_paginated', 60 * 60, function () {
-        //     return Department::select('id', 'name', 'description', 'phone_number')
-        //         ->with(['rooms:id,department_id','doctors:id,department_id,name'])
-        //         ->paginate(10);
-        // });
+
+        // Start with the base query
+        $query = Department::with(['rooms', 'doctors']);
+
+        // Apply filters based on request parameters
+        if ($request->has('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        if ($request->has('empty_rooms')) {
+            $emptyRoomCount = $request->input('empty_rooms');
+            $query->whereHas('rooms', function ($q) use ($emptyRoomCount) {
+                $q->where('status', 'empty')->havingRaw('COUNT(*) >= ?', [$emptyRoomCount]);
+            });
+        }
+
+        // Paginate the results
+        $departments = $query->paginate(10);
+
         return $this->paginated(DepartmentResource::collection($departments));
+        // $departments = Department::with(['rooms','doctors'])->paginate(10);
+        // return $this->paginated(DepartmentResource::collection($departments));
     }
 
     /**

@@ -15,11 +15,31 @@ class DoctorManagementController extends Controller
      * Display a listing of the resource.
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    // public function index(Request $request)
+    // {
+    //     $doctors = Doctor::paginate(10);
+    //     return $this->paginated(DoctorResource::collection($doctors));
+    // }
+
+    public function index(Request $request)
     {
-        $doctors = Doctor::paginate(10);
+        $query = Doctor::query();
+
+        // // Apply filters
+        // if ($request->has('specialty')) {
+        //     $query->where('specialty', $request->input('specialty'));
+        // }
+        // // Paginate the results
+        // $doctors = $query->paginate(10);
+        // return $this->paginated(DoctorResource::collection($doctors));
+
+        $doctors = Doctor::when(
+            $request->has('specialty'),
+            fn() => $query->where('specialty', $request->input('specialty'))
+        )->paginate(10);
         return $this->paginated(DoctorResource::collection($doctors));
     }
+
 
     /**
      * Summary of store

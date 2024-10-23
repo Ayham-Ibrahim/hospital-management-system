@@ -18,9 +18,26 @@ class RoomController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $rooms = Room::with('medicalRecords.patient')->paginate(10);
+        $query = Room::with('medicalRecords.patient');
+
+        // Apply filters based on request parameters
+        if ($request->has('status')) {
+            $query->where('status', $request->input('status'));
+        }
+
+        if ($request->has('type')) {
+            $query->where('type', $request->input('type'));
+        }
+
+        if ($request->has('beds_number')) {
+            $query->where('beds_number', '>=', $request->input('beds_number'));
+        }
+
+        // Paginate the results
+        $rooms = $query->paginate(10);
+
         return $this->paginated(RoomResource::collection($rooms));
     }
 
@@ -39,7 +56,7 @@ class RoomController extends Controller
     public function show(Room $room)
     {
         try {
-            $room->load(['department','medicalRecords.patient']);
+            $room->load(['department', 'medicalRecords.patient']);
             return $this->success(new RoomResource($room));
         } catch (ModelNotFoundException $e) {
             Log::error('room not found' . $e->getmessage());

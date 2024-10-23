@@ -9,7 +9,6 @@ use  Modules\ScheduleManagement\Models\SurjicalOperation;
 use Modules\ScheduleManagement\Transformers\OperationResource;
 use Modules\ScheduleManagement\Http\Requests\Operation\StoreOperationRequest;
 use Modules\ScheduleManagement\Http\Requests\Operation\UpdateOperationRequest;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
 
@@ -28,9 +27,6 @@ class SurjicalOperationController extends Controller
         return $this->paginated(OperationResource::collection($operations));
     }
 
-
-  
-
     /**
      * Summary of store
      * @param \Modules\ScheduleManagement\Http\Requests\Operation\StoreOperationRequest $request
@@ -46,7 +42,7 @@ class SurjicalOperationController extends Controller
         $operation = SurjicalOperation::create($data);
 
         // If doctor IDs are provided, attach the doctors to the operation
-        if($data['doctor_ids']){
+        if ($data['doctor_ids']) {
             $operation->doctors()->attach($data['doctor_ids']);
         }
 
@@ -56,16 +52,14 @@ class SurjicalOperationController extends Controller
      * Update an existing  SurjicalOperation.
      *
      * @param  \Modules\ScheduleManagement\Http\Requests\UpdateOperationRequest  $request
-     * @param  \Modules\PatientManagement\Models\SurjicalOperation  $operation
+     * @param  \Modules\PatientManagement\Models\SurjicalOperation  $surjical_operation
+
      * @return \Illuminate\Http\JsonResponse
      */
 
-     * @param  \Modules\ScheduleManagement\Models\SurjicalOperation  $surjical_operation
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function show(SurjicalOperation $surjical_operation)
     {
-        $surjical_operation->load(['patient','doctor','room']);
+        $surjical_operation->load(['patient', 'doctor', 'room']);
         return $this->success(new OperationResource($surjical_operation));
     }
 
@@ -84,8 +78,8 @@ class SurjicalOperationController extends Controller
         // Validate the request data
         $surjical_operation->update(array_filter($request->validated()));
 
-         // If doctor IDs are provided, attach the doctors to the surjical_operation
-         if($data['doctor_ids']){
+        // If doctor IDs are provided, attach the doctors to the surjical_operation
+        if ($data['doctor_ids']) {
             $surjical_operation->doctors()->sync($data['doctor_ids']);
         }
 
