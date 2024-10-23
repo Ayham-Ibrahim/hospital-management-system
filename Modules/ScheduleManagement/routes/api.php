@@ -20,3 +20,4 @@ use Modules\ScheduleManagement\Http\Controllers\SurjicalOperationController;
 Route::apiResource('surjical-operations', SurjicalOperationController::class);
 
 Route::apiResource('appointments', AppointmentController::class);
+

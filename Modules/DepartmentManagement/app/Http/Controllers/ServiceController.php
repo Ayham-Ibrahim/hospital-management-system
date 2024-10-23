@@ -29,6 +29,7 @@ class ServiceController extends Controller
         )
             ->paginate(10);
         return $this->paginated(ServicesResource::collection($services));
+
     }
 
     /**

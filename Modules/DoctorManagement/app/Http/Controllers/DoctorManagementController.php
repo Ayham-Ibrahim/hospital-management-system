@@ -23,6 +23,7 @@ class DoctorManagementController extends Controller
 
     public function index(Request $request)
     {
+
         $query = Doctor::query();
 
         $doctors = Doctor::when(
@@ -30,6 +31,7 @@ class DoctorManagementController extends Controller
             fn() => $query->where('specialty', $request->input('specialty'))
         )->paginate(10);
         return $this->paginated(DoctorResource::collection($doctors));
+
     }
 
 

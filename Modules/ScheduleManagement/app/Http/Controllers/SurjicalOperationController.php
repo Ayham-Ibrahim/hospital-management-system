@@ -53,6 +53,7 @@ class SurjicalOperationController extends Controller
 
         return $this->success(new OperationResource($operation));
     }
+
     /**
      * Update an existing  SurjicalOperation.
      *
