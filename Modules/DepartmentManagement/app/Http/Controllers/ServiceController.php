@@ -20,15 +20,14 @@ class ServiceController extends Controller
      */
     public function index(Request $request)
     {
-        // Start with the base query
+
         $query = Service::query();
 
-        // Apply filters based on request parameters
-        if ($request->has('name')) {
-            $query->where('name', 'like', '%' . $request->input('name') . '%');
-        }
-
-        $services = Service::paginate(10);
+        $services = Service::when(
+            $request->has('name'),
+            fn() => $query->where('name', 'like', '%' . $request->input('name') . '%')
+        )
+            ->paginate(10);
         return $this->paginated(ServicesResource::collection($services));
     }
 

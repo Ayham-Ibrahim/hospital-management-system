@@ -25,14 +25,6 @@ class DoctorManagementController extends Controller
     {
         $query = Doctor::query();
 
-        // // Apply filters
-        // if ($request->has('specialty')) {
-        //     $query->where('specialty', $request->input('specialty'));
-        // }
-        // // Paginate the results
-        // $doctors = $query->paginate(10);
-        // return $this->paginated(DoctorResource::collection($doctors));
-
         $doctors = Doctor::when(
             $request->has('specialty'),
             fn() => $query->where('specialty', $request->input('specialty'))

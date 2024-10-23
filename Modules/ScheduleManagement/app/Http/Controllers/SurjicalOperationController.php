@@ -20,10 +20,15 @@ class SurjicalOperationController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
+        $query = SurjicalOperation::query();
 
-        $operations = SurjicalOperation::paginate(10);
+        $operations = SurjicalOperation::when(
+            $request->has('schedule_date'),
+            fn() => $query->where('schedule_date', $request->input('schedule_date'))
+        );
+
         return $this->paginated(OperationResource::collection($operations));
     }
 

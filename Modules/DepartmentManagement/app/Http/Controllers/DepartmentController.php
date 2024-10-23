@@ -22,22 +22,10 @@ class DepartmentController extends Controller
     {
 
         // Start with the base query
-        $query = Department::with(['rooms', 'doctors']);
-
-        // Apply filters based on request parameters
-        if ($request->has('name')) {
-            $query->where('name', 'like', '%' . $request->input('name') . '%');
-        }
-
-        if ($request->has('empty_rooms')) {
-            $emptyRoomCount = $request->input('empty_rooms');
-            $query->whereHas('rooms', function ($q) use ($emptyRoomCount) {
-                $q->where('status', 'empty')->havingRaw('COUNT(*) >= ?', [$emptyRoomCount]);
-            });
-        }
-
-        // Paginate the results
-        $departments = $query->paginate(10);
+        $departments = Department::with(['rooms', 'doctors'])->when(
+            $request->has('name'),
+            fn($query) => $query->where('name', 'like', '%' . $request->input('name') . '%')
+        )->paginate(10);
 
         return $this->paginated(DepartmentResource::collection($departments));
         // $departments = Department::with(['rooms','doctors'])->paginate(10);

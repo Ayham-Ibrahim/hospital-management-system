@@ -20,23 +20,14 @@ class RoomController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Room::with('medicalRecords.patient');
-
-        // Apply filters based on request parameters
-        if ($request->has('status')) {
-            $query->where('status', $request->input('status'));
-        }
-
-        if ($request->has('type')) {
-            $query->where('type', $request->input('type'));
-        }
-
-        if ($request->has('beds_number')) {
-            $query->where('beds_number', '>=', $request->input('beds_number'));
-        }
-
-        // Paginate the results
-        $rooms = $query->paginate(10);
+        $rooms = Room::with('medicalRecords.patient')->when(
+            $request->has('status'),
+            fn($query) => $query->where('status', $request->input('status'))
+        )->when(
+            $request->has('type'),
+            fn($query) => $query->where('type', $request->input('type'))
+                ->paginate(10)
+        );
 
         return $this->paginated(RoomResource::collection($rooms));
     }
