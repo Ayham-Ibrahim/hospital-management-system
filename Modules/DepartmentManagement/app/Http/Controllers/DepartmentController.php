@@ -20,20 +20,14 @@ class DepartmentController extends Controller
      */
     public function index(Request $request)
     {
-
-
-        // Start with the base query
-        $departments = Department::with(['rooms', 'doctors'])->when(
-            $request->has('name'),
-            fn($query) => $query->where('name', 'like', '%' . $request->input('name') . '%')
-        )->paginate(10);
-        $departments = Department::with(['rooms','doctors'])->get();
-        // $departments = Cache::remember('departments_paginated', 60 * 60, function () {
-        //     return Department::select('id', 'name', 'description', 'phone_number')
-        //         ->with(['rooms:id,department_id','doctors:id,department_id,name'])
-        //         ->paginate(10);
-        // });
-        return $this->success(DepartmentResource::collection($departments));
+        $cachKey = 'department_index' . md5(json_encode($request->all()));
+        $cachedDepartments  = Cache::remember($cachKey,60*60*24,function() use ($request){
+            return Department::with(['rooms:id,room_number', 'doctors:id,name'])->when(
+                $request->has('name'),
+                fn($query) => $query->where('name', 'like', '%' . $request->input('name') . '%')
+            )->get();    
+        });
+        return $this->success(DepartmentResource::collection($cachedDepartments ));
 
     }
 

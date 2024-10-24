@@ -2,15 +2,17 @@
 
 namespace Modules\DepartmentManagement\Models;
 
+use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
+use Modules\DoctorManagement\Models\Doctor;
 use Modules\DepartmentManagement\Models\Service;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\DoctorManagement\Models\Doctor;
 // use Modules\DepartmentManagement\Database\Factories\DepartmentFactory;
 
 class Department extends Model
 {
-    use HasFactory;
+    use HasFactory,Searchable;
+    
 
     /**
      * The attributes that are mass assignable.
@@ -20,6 +22,29 @@ class Department extends Model
         'description',
         'phone_number',
     ];
+
+        /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = [
+        'rooms:id,room_number',
+        'doctors:id,name',
+    ];
+
+    
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
+    {
+        return [
+            'name' => $this->title,
+        ];
+    }
 
 
     /**

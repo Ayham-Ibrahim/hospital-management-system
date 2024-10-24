@@ -22,8 +22,8 @@ class DepartmentResource extends JsonResource
             'room_count' => $this->room_count,
             'doctor_count' => $this->doctor_count,
             'empty_room_count' => $this->empty_room_count,
-            'rooms' => RoomResource::collection($this->whenLoaded('rooms')),
-            'doctors' => DoctorResource::collection($this->whenLoaded('doctors')),
+            'rooms' => $this->whenLoaded('rooms'),
+            'doctors' => $this->whenLoaded('doctors'),
         ];
     }
 }
