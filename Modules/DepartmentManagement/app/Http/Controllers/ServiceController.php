@@ -7,11 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Services\ApiResponseService;
+use Illuminate\Support\Facades\Cache;
 use Modules\DepartmentManagement\Models\Service;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Modules\DepartmentManagement\Transformers\Service\ServicesResource;
 use Modules\DepartmentManagement\Http\Requests\Services\StoreServiceRequest;
 use Modules\DepartmentManagement\Http\Requests\Services\UpdateServiceRequest;
-use Modules\DepartmentManagement\Transformers\Service\ServicesResource;
 
 class ServiceController extends Controller
 {
@@ -20,16 +21,17 @@ class ServiceController extends Controller
      */
     public function index(Request $request)
     {
+        $cacheKey = 'services-index-' . md5(json_encode($request->all()));
 
-        $query = Service::query();
-
-        $services = Service::when(
-            $request->has('name'),
-            fn() => $query->where('name', 'like', '%' . $request->input('name') . '%')
-        )
-            ->paginate(10);
-        return $this->paginated(ServicesResource::collection($services));
-
+        $services = Cache::remember($cacheKey,60*60*24, function () use ($request) {
+            return Service::when(
+                $request->has('name'),
+                fn($query) => $query->where('name', 'like', '%' . $request->input('name') . '%')
+            )
+            ->get();
+        });
+    
+        return $this->success(ServicesResource::collection($services));
     }
 
     /**
