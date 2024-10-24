@@ -18,15 +18,16 @@ class Department extends Model
     protected $fillable = [
         'name',
         'description',
-        'phone_number',    
+        'phone_number',
     ];
 
-  
+
     /**
      * return rooms that belongs to the department
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function rooms(){
+    public function rooms()
+    {
         return $this->hasMany(Room::class);
     }
 
@@ -34,16 +35,18 @@ class Department extends Model
      * return services that belongs to the department
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function services(){
+    public function services()
+    {
         return $this->hasMany(Service::class);
     }
 
-    
+
     /**
      * return doctors that belongs to the department
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function doctors(){
+    public function doctors()
+    {
         return $this->hasMany(Doctor::class);
     }
 
@@ -71,7 +74,10 @@ class Department extends Model
         return $this->doctors()->count();
     }
 
-
+    public function getEmptyRoomCountAttribute()
+    {
+        return $this->rooms()->where('status', 'vacant')->count();
+    }
 
 
     // protected static function newFactory(): DepartmentFactory

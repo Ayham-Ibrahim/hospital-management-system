@@ -18,8 +18,15 @@ class DepartmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+
+
+        // Start with the base query
+        $departments = Department::with(['rooms', 'doctors'])->when(
+            $request->has('name'),
+            fn($query) => $query->where('name', 'like', '%' . $request->input('name') . '%')
+        )->paginate(10);
         $departments = Department::with(['rooms','doctors'])->get();
         // $departments = Cache::remember('departments_paginated', 60 * 60, function () {
         //     return Department::select('id', 'name', 'description', 'phone_number')
@@ -27,6 +34,7 @@ class DepartmentController extends Controller
         //         ->paginate(10);
         // });
         return $this->success(DepartmentResource::collection($departments));
+
     }
 
     /**

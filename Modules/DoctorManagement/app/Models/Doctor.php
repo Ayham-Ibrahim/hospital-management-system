@@ -11,6 +11,9 @@ use Modules\DoctorManagement\Database\Factories\DoctorFactory;
 use Modules\ScheduleManagement\Models\SurjicalOperation;
 use Modules\PatientManagement\Models\MedicalRecord;
 
+// use Modules\DoctorManagement\Database\Factories\DoctorFactory;
+
+
 class Doctor extends Model
 {
     use HasFactory;
@@ -65,7 +68,7 @@ class Doctor extends Model
 
 
     /**
-     *  surgical Operations that the doctor particepate in it 
+     *  surgical Operations that the doctor particepate in it
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
 

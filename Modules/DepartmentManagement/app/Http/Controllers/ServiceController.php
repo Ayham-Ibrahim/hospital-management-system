@@ -18,10 +18,18 @@ class ServiceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $services = Service::all();
-        return $this->success(ServicesResource::collection($services));
+
+        $query = Service::query();
+
+        $services = Service::when(
+            $request->has('name'),
+            fn() => $query->where('name', 'like', '%' . $request->input('name') . '%')
+        )
+            ->paginate(10);
+        return $this->paginated(ServicesResource::collection($services));
+
     }
 
     /**

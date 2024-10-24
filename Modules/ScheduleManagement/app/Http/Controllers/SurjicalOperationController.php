@@ -20,15 +20,17 @@ class SurjicalOperationController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
+        $query = SurjicalOperation::query();
 
-        $operations = SurjicalOperation::paginate(10);
+        $operations = SurjicalOperation::when(
+            $request->has('schedule_date'),
+            fn() => $query->where('schedule_date', $request->input('schedule_date'))
+        );
+
         return $this->paginated(OperationResource::collection($operations));
     }
-
-
-  
 
     /**
      * Summary of store
@@ -45,17 +47,25 @@ class SurjicalOperationController extends Controller
         $operation = SurjicalOperation::create($data);
 
         // If doctor IDs are provided, attach the doctors to the operation
-        if($data['doctor_ids']){
+        if ($data['doctor_ids']) {
             $operation->doctors()->attach($data['doctor_ids']);
         }
 
         return $this->success(new OperationResource($operation));
     }
-    
+
+    /**
+     * Update an existing  SurjicalOperation.
+     *
+     * @param  \Modules\ScheduleManagement\Http\Requests\UpdateOperationRequest  $request
+     * @param  \Modules\PatientManagement\Models\SurjicalOperation  $surjical_operation
+
+     * @return \Illuminate\Http\JsonResponse
+     */
 
     public function show(SurjicalOperation $surjical_operation)
     {
-        $surjical_operation->load(['patient','doctor','room']);
+        $surjical_operation->load(['patient', 'doctor', 'room']);
         return $this->success(new OperationResource($surjical_operation));
     }
 
@@ -74,8 +84,8 @@ class SurjicalOperationController extends Controller
         // Validate the request data
         $surjical_operation->update(array_filter($request->validated()));
 
-         // If doctor IDs are provided, attach the doctors to the surjical_operation
-         if($data['doctor_ids']){
+        // If doctor IDs are provided, attach the doctors to the surjical_operation
+        if ($data['doctor_ids']) {
             $surjical_operation->doctors()->sync($data['doctor_ids']);
         }
 

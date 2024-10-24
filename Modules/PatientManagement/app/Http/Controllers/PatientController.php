@@ -15,19 +15,27 @@ class PatientController extends Controller
 {
     /**
      * Get a paginated list of patients along with their associated services.
-     * 
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $patients = Patient::with('services')->paginate(10);
-        return $this->success(PatientResource::collection($patients));
+        $patients = Patient::with('services')->when(
+            $request->has('name'),
+            fn($query) => $query->where('name', 'like', '%' . $request->input('name') . '%')
+        )->when(
+            $request->has('admission_date'),
+            fn($query) => $query->whereHas('medicalRecords', function ($query) use ($request) {
+                $query->where('admission_date', $request->input('admission_date'));
+            })
+        )->paginate(10);
+        return $this->paginated(PatientResource::collection($patients));
     }
 
 
     /**
      * Create a new patient record.
-     * 
+     *
      * @param  \Modules\PatientManagement\Http\Requests\Patient\StorePatientRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -41,7 +49,7 @@ class PatientController extends Controller
 
     /**
      * Display a single patient along with their associated services.
-     * 
+     *
      * @param  \Modules\PatientManagement\Models\Patient  $patient
      * @return \Illuminate\Http\JsonResponse
      */
@@ -54,7 +62,7 @@ class PatientController extends Controller
 
     /**
      * Update an existing patient record.
-     * 
+     *
      * @param  \Modules\PatientManagement\Http\Requests\Patient\UpdatePatientRequest  $request
      * @param  \Modules\PatientManagement\Models\Patient  $patient
      * @return \Illuminate\Http\JsonResponse
@@ -68,7 +76,7 @@ class PatientController extends Controller
 
     /**
      * Delete a patient record.
-     * 
+     *
      * @param  \Modules\PatientManagement\Models\Patient  $patient
      * @return \Illuminate\Http\JsonResponse
      */
@@ -81,7 +89,7 @@ class PatientController extends Controller
 
     /**
      *  Sync services to the patient.
-     * 
+     *
      * @param  \Modules\PatientManagement\Http\Requests\Patient\StorePatientServiceRequest  $request
      * @param  \Modules\PatientManagement\Models\Patient  $patient
      * @return \Illuminate\Http\JsonResponse

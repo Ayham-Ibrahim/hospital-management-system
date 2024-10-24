@@ -26,7 +26,7 @@ class Patient extends Model
         'address',
         'mobile_number'
     ];
-    
+
 
     /**
      * patient Factory
@@ -50,7 +50,8 @@ class Patient extends Model
      * get the patients medical records
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function medicalRecords(): HasMany{
+    public function medicalRecords(): HasMany
+    {
         return $this->hasMany(MedicalRecord::class);
     }
 }
