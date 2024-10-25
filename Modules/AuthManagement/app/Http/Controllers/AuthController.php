@@ -7,6 +7,7 @@ use Modules\AuthManagement\Http\Requests\Auth\LoginUserRequest;
 use Modules\AuthManagement\Http\Requests\Auth\StoreUserRequest;
 use  Modules\AuthManagement\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
@@ -15,15 +16,13 @@ class AuthController extends Controller
 
     public function login(LoginUserRequest $request)
     {
-        $request->validated($request->all());
+
         $credentials = $request->only(['email', 'password']);
 
         if (!Auth::attempt($credentials)) {
             return $this->error(['error' => 'Invalid credentials'], 401);
         }
-
-        $user = User::where('email', $request->email)->first();
-
+        $user = Auth::user();
         $token = $user->createToken('Api Token Of ' . $user->name)->plainTextToken;
         return $this->success([
             'user' => $user,
@@ -35,12 +34,8 @@ class AuthController extends Controller
     {
 
         try {
-            $request->validated($request->all());
-            $user = new User();
-            $user->email = $request->input('email');
-            $user->name = $request->input('name');
-            $user->password = Hash::make($request->input('password'));
-            $user->save();
+            $user = User::create($request->validated());
+
             $token = $user->createToken('Api Token Of ' . $user->name)->plainTextToken;
 
             return $this->success([
