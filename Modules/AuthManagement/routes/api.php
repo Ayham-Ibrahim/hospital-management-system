@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\AuthManagement\Http\Controllers\AuthController;
+use Modules\AuthManagement\Http\Controllers\RoleController;
+use Modules\AuthManagement\Http\Controllers\PermissionController;
 
 /*
  *--------------------------------------------------------------------------
@@ -16,13 +18,25 @@ use Modules\AuthManagement\Http\Controllers\AuthController;
 
 
 
-
+/**
+ * Route for registration proccess
+ */
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
+
+    // routes for logout the auth user and refresh his token 
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/refresh-token', [AuthController::class, 'refreshToken']);
+
+    // routes for roles operation
+    Route::apiResource('roles',RoleController::class);
+
+     // routes for permissions operation
+    Route::apiResource('permissions',PermissionController::class);
+
+
+
 });
 
-
-Route::get('/refresh-token', [AuthController::class, 'refreshToken'])->middleware('auth:sanctum');
