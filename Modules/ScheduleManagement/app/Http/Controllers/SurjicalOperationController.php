@@ -70,7 +70,7 @@ class SurjicalOperationController extends Controller
 
 
     /**
-     * Summary of update
+     * Update the specified  surjical operation
      * @param \Modules\ScheduleManagement\Http\Requests\Operation\UpdateOperationRequest $request
      * @param  \Modules\ScheduleManagement\Models\SurjicalOperation  $surjical_operation
      * @return \Illuminate\Http\JsonResponse

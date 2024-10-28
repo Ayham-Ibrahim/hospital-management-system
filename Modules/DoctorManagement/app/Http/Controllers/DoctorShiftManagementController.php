@@ -22,7 +22,7 @@ class DoctorShiftManagementController extends Controller
     }
 
     /**
-     * Summary of store
+     * Store a newly created doctor shift in storage.
      * @param \Modules\DoctorManagement\Http\Requests\DoctorShiftStoreRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -34,7 +34,7 @@ class DoctorShiftManagementController extends Controller
     }
 
     /**
-     * Summary of show
+     * Display the specified doctor shift.
      * @param \Modules\DoctorManagement\Models\DoctorShift $doctorshift
      * @return \Illuminate\Http\JsonResponse
      */
@@ -44,7 +44,7 @@ class DoctorShiftManagementController extends Controller
     }
 
     /**
-     * Summary of update
+     * Update the specified doctor shift in storage.
      * @param \Modules\DoctorManagement\Models\DoctorShift $doctorshift
      * @param \Modules\DoctorManagement\Http\Requests\DoctorShiftUpdateRequest $request
      * @return \Illuminate\Http\JsonResponse
@@ -59,7 +59,7 @@ class DoctorShiftManagementController extends Controller
 
 
     /**
-     * Summary of destroy
+     * Remove the specified doctor shift from storage.
      * @param \Modules\DoctorManagement\Models\DoctorShift $doctorshift
      * @return \Illuminate\Http\JsonResponse
      */

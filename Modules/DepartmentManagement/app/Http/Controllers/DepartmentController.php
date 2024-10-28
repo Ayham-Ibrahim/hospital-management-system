@@ -17,7 +17,7 @@ class DepartmentController extends Controller
 {
 
     /**
-     * Display a listing of the departments
+     *  Display a listing of departments with caching and filtering.
      *  using cach and filters.
      * @return \Illuminate\Http\JsonResponse
      */
@@ -36,7 +36,7 @@ class DepartmentController extends Controller
 
 
     /**
-     * Summary of store
+     *  Store a newly created department.
      * @param \Modules\DepartmentManagement\Http\Requests\Department\StoreDepartmentRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -48,7 +48,7 @@ class DepartmentController extends Controller
     }
 
     /**
-     * Summary of show
+     * Show details of a specific department.
      * @param \Modules\DepartmentManagement\Models\Department $department
      * @return \Illuminate\Http\JsonResponse
      */
@@ -61,9 +61,10 @@ class DepartmentController extends Controller
             throw new Exception("Depatrment not found");
         }
     }
+
     /**
-     * Summary of update
-     * @param \Modules\DeparmentManagement\Models\Department $department
+     * Update an existing department.
+     * @param \Modules\DepartmentManagement\Models\Department $department
      * @param \Modules\DepartmentManagement\Http\Requests\Department\UpdateDepartmentRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -75,7 +76,7 @@ class DepartmentController extends Controller
 
 
     /**
-     * Summary of destroy
+     * Remove the specified department.
      * @param \Modules\DepartmentManagement\Models\Department $department
      * @return \Illuminate\Http\JsonResponse
      */
