@@ -15,24 +15,30 @@ use Modules\DepartmentManagement\Http\Requests\Department\UpdateDepartmentReques
 
 class DepartmentController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * Display a listing of the departments
+     *  using cach and filters.
+     * @return \Illuminate\Http\JsonResponse
      */
+
     public function index(Request $request)
     {
         $cachKey = 'department_index' . md5(json_encode($request->all()));
-        $cachedDepartments  = Cache::remember($cachKey,60*60*24,function() use ($request){
+        $cachedDepartments  = Cache::remember($cachKey, 60 * 60 * 24, function () use ($request) {
             return Department::with(['rooms:id,room_number', 'doctors:id,name'])->when(
                 $request->has('name'),
                 fn($query) => $query->where('name', 'like', '%' . $request->input('name') . '%')
-            )->get();    
+            )->get();
         });
-        return $this->success(DepartmentResource::collection($cachedDepartments ));
-
+        return $this->success(DepartmentResource::collection($cachedDepartments));
     }
 
+
     /**
-     * Store a newly created resource in storage.
+     * Summary of store
+     * @param \Modules\DepartmentManagement\Http\Requests\Department\StoreDepartmentRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreDepartmentRequest $request)
     {
@@ -42,7 +48,9 @@ class DepartmentController extends Controller
     }
 
     /**
-     * Show the specified resource.
+     * Summary of show
+     * @param \Modules\DepartmentManagement\Models\Department $department
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Department $department)
     {
@@ -53,9 +61,11 @@ class DepartmentController extends Controller
             throw new Exception("Depatrment not found");
         }
     }
-
     /**
-     * Update the specified resource in storage.
+     * Summary of update
+     * @param \Modules\DeparmentManagement\Models\Department $department
+     * @param \Modules\DepartmentManagement\Http\Requests\Department\UpdateDepartmentRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateDepartmentRequest $request, Department $department)
     {
@@ -63,8 +73,11 @@ class DepartmentController extends Controller
         return $this->success(new DepartmentResource($department));
     }
 
+
     /**
-     * Remove the specified resource from storage.
+     * Summary of destroy
+     * @param \Modules\DepartmentManagement\Models\Department $department
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Department $department)
     {

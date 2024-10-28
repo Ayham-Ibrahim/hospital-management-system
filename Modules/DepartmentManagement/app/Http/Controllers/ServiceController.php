@@ -17,25 +17,29 @@ use Modules\DepartmentManagement\Http\Requests\Services\UpdateServiceRequest;
 class ServiceController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the services
+     *  using filters according to name and use caching.
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
         $cacheKey = 'services-index-' . md5(json_encode($request->all()));
 
-        $services = Cache::remember($cacheKey,60*60*24, function () use ($request) {
+        $services = Cache::remember($cacheKey, 60 * 60 * 24, function () use ($request) {
             return Service::when(
                 $request->has('name'),
                 fn($query) => $query->where('name', 'like', '%' . $request->input('name') . '%')
             )
-            ->get();
+                ->get();
         });
-    
+
         return $this->success(ServicesResource::collection($services));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Summary of store
+     * @param \Modules\DepartmentManagement\Http\Requests\Service\StoreServiceRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreServiceRequest $request)
     {
@@ -44,7 +48,9 @@ class ServiceController extends Controller
     }
 
     /**
-     * Show the specified resource.
+     * Summary of show
+     * @param \Modules\DepartmentManagement\Models\Service $room
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Service $service)
     {
@@ -57,8 +63,12 @@ class ServiceController extends Controller
         }
     }
 
+
     /**
-     * Update the specified resource in storage.
+     * Summary of update
+     * @param \Modules\DepartmentManagement\Models\Service $service
+     * @param \Modules\DepartmentManagement\Http\Requests\Service\UpdateServiceRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateServiceRequest $request, Service $service)
     {
@@ -67,7 +77,9 @@ class ServiceController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Summary of destroy
+     * @param \Modules\DepartmentManagement\Models\Service $service
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Service $service)
     {

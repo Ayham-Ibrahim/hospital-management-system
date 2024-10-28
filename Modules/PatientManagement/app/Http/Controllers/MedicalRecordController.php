@@ -14,7 +14,9 @@ use Modules\PatientManagement\Http\Requests\MedicalRecord\UpdateMedicalRecord;
 class MedicalRecordController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get a paginated list of medical_records along with their associated patients ,doctors and rooms.
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -23,7 +25,10 @@ class MedicalRecordController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a new medical_record record.
+     *
+     * @param  \Modules\PatientManagement\Http\Requests\MedicalRecird\StoreMedicalRecord  $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreMedicalRecord $request)
     {
@@ -32,16 +37,23 @@ class MedicalRecordController extends Controller
     }
 
     /**
-     * Show the specified resource.
+     * Display a single medical_record .
+     *
+     * @param  \Modules\PatientManagement\Models\MedicalRecord  $medicalrecord
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(MedicalRecord $medicalRecord)
     {
-        $medicalRecord->load(['doctor','room','patient']);
-        return $this->success( new MedicalRecordResource($medicalRecord));
+        $medicalRecord->load(['doctor', 'room', 'patient']);
+        return $this->success(new MedicalRecordResource($medicalRecord));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update an existing medical_record record.
+     *
+     * @param  \Modules\PatientManagement\Http\Requests\MedicalRcord\UpdateMedicalRecord  $request
+     * @param  \Modules\PatientManagement\Models\MedicalRecord  $medicalrecord
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateMedicalRecord $request, MedicalRecord $medicalRecord)
     {
@@ -51,27 +63,30 @@ class MedicalRecordController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a medical_record record.
+     *
+     * @param  \Modules\PatientManagement\Models\MedicalRecord  $patient
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(MedicalRecord $medicalRecord)
     {
         $medicalRecord->delete();
-        return $this->success( null, 'medicalRecord deleted successfully', 200);
-
+        return $this->success(null, 'medicalRecord deleted successfully', 200);
     }
 
     /**
-     * get the patient records 
+     * get the patient records
      * @param \Modules\PatientManagement\Models\Patient $patient
      * @return \Illuminate\Http\JsonResponse
      */
-    public function patientRecords(Patient $patient){
+    public function patientRecords(Patient $patient)
+    {
 
-        // TODO :  id and name the doctor 
-        $medicalRecords = MedicalRecord::where('patient_id',$patient->id)
+        // TODO :  id and name the doctor
+        $medicalRecords = MedicalRecord::where('patient_id', $patient->id)
             ->with(['doctor:id,name'])
             ->get();
 
-     return $this->success( MedicalRecordResource::collection($medicalRecords));
+        return $this->success(MedicalRecordResource::collection($medicalRecords));
     }
 }
