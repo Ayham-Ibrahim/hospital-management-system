@@ -16,8 +16,11 @@ use Modules\DepartmentManagement\Http\Requests\Room\UpdateRoomRequest;
 class RoomController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the rooms
+     *  using filters according to status and type of room.
+     * @return \Illuminate\Http\JsonResponse
      */
+
     public function index(Request $request)
     {
         $rooms = Room::with('medicalRecords.patient')->when(
@@ -33,7 +36,9 @@ class RoomController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Summary of store
+     * @param \Modules\DepartmentManagement\Http\Requests\Room\StoreRoomRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreRoomRequest $request)
     {
@@ -42,7 +47,9 @@ class RoomController extends Controller
     }
 
     /**
-     * Show the specified resource.
+     * Summary of show
+     * @param \Modules\DepartmentManagement\Models\Room $room
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Room $room)
     {
@@ -56,7 +63,10 @@ class RoomController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Summary of update
+     * @param \Modules\DepartmentManagement\Models\Room $rooom
+     * @param \Modules\DepartmentManagement\Http\Requests\Room\UpdateRoomRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateRoomRequest $request, Room $room)
     {
@@ -64,8 +74,11 @@ class RoomController extends Controller
         return $this->success(new RoomResource($room));
     }
 
+
     /**
-     * Remove the specified resource from storage.
+     * Summary of destroy
+     * @param \Modules\DepartmentManagement\Models\Room $room
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Room $room)
     {

@@ -54,12 +54,11 @@ class SurjicalOperationController extends Controller
         return $this->success(new OperationResource($operation));
     }
 
-    /**
-     * Update an existing  SurjicalOperation.
-     *
-     * @param  \Modules\ScheduleManagement\Http\Requests\UpdateOperationRequest  $request
-     * @param  \Modules\PatientManagement\Models\SurjicalOperation  $surjical_operation
 
+    /**
+     * Display a single SurjicalOperation .
+     *
+     * @param  \Modules\ScheduleManagement\Models\SurjicalOperation  $surjical_operation
      * @return \Illuminate\Http\JsonResponse
      */
 
