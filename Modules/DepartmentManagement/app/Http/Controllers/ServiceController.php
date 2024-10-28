@@ -29,8 +29,7 @@ class ServiceController extends Controller
             return Service::when(
                 $request->has('name'),
                 fn($query) => $query->where('name', 'like', '%' . $request->input('name') . '%')
-            )
-                ->get();
+            )->get();
         });
 
         return $this->success(ServicesResource::collection($services));

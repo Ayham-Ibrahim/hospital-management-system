@@ -54,4 +54,24 @@ class Patient extends Model
     {
         return $this->hasMany(MedicalRecord::class);
     }
+
+    /**
+     * Scope a query to filter patients by name and admission date.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeFilter($query, $request)
+    {
+        return $query->when(
+            $request->has('name'),
+            fn($query) => $query->where('name', 'like', '%' . $request->input('name') . '%')
+        )->when(
+            $request->has('admission_date'),
+            fn($query) => $query->whereHas('medicalRecords', function ($query) use ($request) {
+                $query->where('admission_date', $request->input('admission_date'));
+            })
+        );
+    }
 }

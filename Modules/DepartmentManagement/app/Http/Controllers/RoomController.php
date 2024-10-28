@@ -21,19 +21,14 @@ class RoomController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function index(Request $request)
-    {
-        $rooms = Room::with('medicalRecords.patient')->when(
-            $request->has('status'),
-            fn($query) => $query->where('status', $request->input('status'))
-        )->when(
-            $request->has('type'),
-            fn($query) => $query->where('type', $request->input('type'))
-                ->paginate(10)
-        );
+     public function index(Request $request)
+	 {
+        $rooms = Room::with('medicalRecords.patient')
+            ->filter($request)
+            ->paginate(10);
 
         return $this->paginated(RoomResource::collection($rooms));
-    }
+	 }
 
     /**
      * Store a newly created room.
@@ -89,5 +84,15 @@ class RoomController extends Controller
             Log::error('room not found' . $e->getmessage());
             throw new Exception("room not found");
         }
+    }
+
+
+    /**
+     * list of room for select list
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function roomList(){
+        $rooms = Room::select(['id','room_number'])->get();
+        return $this->success($rooms);
     }
 }

@@ -4,6 +4,7 @@ namespace Modules\DoctorManagement\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use  Modules\DoctorManagement\Models\Doctor;
 use Modules\DoctorManagement\Transformers\DoctorResource;
 use Modules\DoctorManagement\Http\Requests\DoctorStoreRequest;
@@ -17,11 +18,15 @@ class DoctorManagementController extends Controller
      */
     public function index(Request $request)
     {
-        // $query = Doctor::query();
-        $doctors = Doctor::when(
-            $request->has('specialty'),
-            fn($query) => $query->where('specialty', $request->input('specialty'))
-        )->paginate(10);
+        $cacheKey = 'doctors-index-' . md5(json_encode($request->all()));
+
+        $doctors = Cache::remember($cacheKey, 60 * 60 * 24, function () use ($request) {
+            return Doctor::when(
+                    $request->has('specialty'),
+                    fn($query) => $query->filterBySpecialty($request->input('specialty'))
+                )
+                ->paginate(10);
+        });
         return $this->paginated(DoctorResource::collection($doctors));
     }
 

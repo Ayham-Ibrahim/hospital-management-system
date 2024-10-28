@@ -16,8 +16,19 @@ use Modules\DepartmentManagement\Http\Controllers\ServiceController;
  *
 */
 
-
+/**
+ * Routes for department operations
+ */
 Route::apiResource('departments',DepartmentController::class);
+
+/**
+ * Routes for rooms operations
+ */
 Route::apiResource('rooms',RoomController::class);
+Route::get('roomList',[RoomController::class,'roomList']);
+
+/**
+ * Routes for services operations
+ */
 Route::apiResource('services',ServiceController::class);
 

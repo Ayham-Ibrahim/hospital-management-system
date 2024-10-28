@@ -20,18 +20,13 @@ class PatientController extends Controller
      */
     public function index(Request $request)
     {
-        $patients = Patient::with('services')->when(
-            $request->has('name'),
-            fn($query) => $query->where('name', 'like', '%' . $request->input('name') . '%')
-        )->when(
-            $request->has('admission_date'),
-            fn($query) => $query->whereHas('medicalRecords', function ($query) use ($request) {
-                $query->where('admission_date', $request->input('admission_date'));
-            })
-        )->paginate(10);
+        $patients = Patient::with('services')
+            ->filter($request)
+            ->paginate(10);
         return $this->paginated(PatientResource::collection($patients));
     }
 
+   
 
     /**
      * Create a new patient record.
@@ -102,7 +97,14 @@ class PatientController extends Controller
     }
 
 
-
+    /**
+     * list of patients for select list
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function patientList(){
+        $patients = Patient::select(['id','name'])->get();
+        return $this->success($patients);
+    }
 
     // show services for specific patient
 }
