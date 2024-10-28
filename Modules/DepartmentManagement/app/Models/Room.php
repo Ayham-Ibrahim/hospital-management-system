@@ -43,4 +43,23 @@ class Room extends Model
     {
         return $this->hasMany(MedicalRecord::class);
     }
+
+    /**
+     * Scope to filter rooms by status and type if present in the request.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeFilter($query, $request)
+    {
+        return $query->when(
+            $request->has('status'),
+            fn($query) => $query->where('status', $request->input('status'))
+        )
+        ->when(
+            $request->has('type'),
+            fn($query) => $query->where('type', $request->input('type'))
+        );
+    }
 }

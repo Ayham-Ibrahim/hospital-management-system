@@ -5,7 +5,6 @@ namespace Modules\PatientManagement\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Modules\PatientManagement\Models\MedicalRecord;
-use Modules\PatientManagement\Http\Requests\MedicalRecordRequest;
 use Modules\PatientManagement\Models\Patient;
 use Modules\PatientManagement\Transformers\MedicalRecordResource;
 use Modules\PatientManagement\Http\Requests\MedicalRecord\StoreMedicalRecord;
@@ -26,8 +25,7 @@ class MedicalRecordController extends Controller
 
     /**
      * Create a new medical_record record.
-     *
-     * @param  \Modules\PatientManagement\Http\Requests\MedicalRecird\StoreMedicalRecord  $request
+     * @param \Modules\PatientManagement\Http\Requests\MedicalRecord\StoreMedicalRecord $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreMedicalRecord $request)
@@ -50,9 +48,8 @@ class MedicalRecordController extends Controller
 
     /**
      * Update an existing medical_record record.
-     *
-     * @param  \Modules\PatientManagement\Http\Requests\MedicalRcord\UpdateMedicalRecord  $request
-     * @param  \Modules\PatientManagement\Models\MedicalRecord  $medicalrecord
+     * @param \Modules\PatientManagement\Http\Requests\MedicalRecord\UpdateMedicalRecord $request
+     * @param \Modules\PatientManagement\Models\MedicalRecord $medicalRecord
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateMedicalRecord $request, MedicalRecord $medicalRecord)
@@ -81,8 +78,6 @@ class MedicalRecordController extends Controller
      */
     public function patientRecords(Patient $patient)
     {
-
-        // TODO :  id and name the doctor
         $medicalRecords = MedicalRecord::where('patient_id', $patient->id)
             ->with(['doctor:id,name'])
             ->get();

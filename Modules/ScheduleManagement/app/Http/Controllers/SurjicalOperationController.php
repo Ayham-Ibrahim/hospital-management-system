@@ -22,13 +22,11 @@ class SurjicalOperationController extends Controller
      */
     public function index(Request $request)
     {
-        $query = SurjicalOperation::query();
-
         $operations = SurjicalOperation::when(
             $request->has('schedule_date'),
-            fn() => $query->where('schedule_date', $request->input('schedule_date'))
-        );
-
+            fn($query) => $query->where('schedule_date', $request->input('schedule_date'))
+        )->paginate(10);
+    
         return $this->paginated(OperationResource::collection($operations));
     }
 

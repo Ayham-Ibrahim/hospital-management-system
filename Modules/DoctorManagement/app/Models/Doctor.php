@@ -78,6 +78,17 @@ class Doctor extends Model
     }
 
 
+    /**
+     * scope to handle the specialty filter
+     * @param mixed $query
+     * @param mixed $specialty
+     * @return mixed
+     */
+    public function scopeFilterBySpecialty($query, $specialty)
+    {
+        return $query->where('specialty', $specialty);
+    }
+
 
     // protected static function newFactory(): DoctorFactory
     // {

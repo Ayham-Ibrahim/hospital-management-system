@@ -16,10 +16,15 @@ use Modules\PatientManagement\Http\Controllers\MedicalRecordController;
  *
 */
 
-
+/**
+ * Routes for patients records operations
+ */
 Route::apiResource('patients', PatientController::class);
 Route::post('/patients/{patient}/services', [PatientController::class, 'storeServices']);
+Route::get('patientsList',[PatientController::class,'patientList']);
 
-
+/**
+ * Routes for medical records operations
+ */
 Route::apiResource('medical-records', MedicalRecordController::class);
 Route::get('/patient-records/{patient}', [MedicalRecordController::class, 'patientRecords']);
