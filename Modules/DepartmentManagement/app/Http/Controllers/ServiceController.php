@@ -17,7 +17,7 @@ use Modules\DepartmentManagement\Http\Requests\Services\UpdateServiceRequest;
 class ServiceController extends Controller
 {
     /**
-     * Display a listing of the services
+     * Display a listing of services with caching and filtering by name.
      *  using filters according to name and use caching.
      * @return \Illuminate\Http\JsonResponse
      */
@@ -37,8 +37,8 @@ class ServiceController extends Controller
     }
 
     /**
-     * Summary of store
-     * @param \Modules\DepartmentManagement\Http\Requests\Service\StoreServiceRequest $request
+     * Store a newly created service.
+     * @param \Modules\DepartmentManagement\Http\Requests\Services\StoreServiceRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreServiceRequest $request)
@@ -48,7 +48,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Summary of show
+     * Show details of a specific service.
      * @param \Modules\DepartmentManagement\Models\Service $room
      * @return \Illuminate\Http\JsonResponse
      */
@@ -65,9 +65,9 @@ class ServiceController extends Controller
 
 
     /**
-     * Summary of update
+     * Update an existing service.
      * @param \Modules\DepartmentManagement\Models\Service $service
-     * @param \Modules\DepartmentManagement\Http\Requests\Service\UpdateServiceRequest $request
+     * @param \Modules\DepartmentManagement\Http\Requests\Services\UpdateServiceRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateServiceRequest $request, Service $service)
@@ -77,7 +77,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Summary of destroy
+     * Delete a service.
      * @param \Modules\DepartmentManagement\Models\Service $service
      * @return \Illuminate\Http\JsonResponse
      */

@@ -27,7 +27,7 @@ class DoctorManagementController extends Controller
 
 
     /**
-     * Summary of store
+     * Create a new doctor with optional image upload.
      * @param \Modules\DoctorManagement\Http\Requests\DoctorStoreRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -44,7 +44,7 @@ class DoctorManagementController extends Controller
     }
 
     /**
-     * Summary of show
+     * Show details of a specific doctor.
      * @param \Modules\DoctorManagement\Models\Doctor $doctor
      * @return \Illuminate\Http\JsonResponse
      */
@@ -55,12 +55,12 @@ class DoctorManagementController extends Controller
     }
 
     /**
-     * Summary of update
+     * Update an existing doctor with optional image upload.
      * @param \Modules\DoctorManagement\Models\Doctor $doctor
      * @param \Modules\DoctorManagement\Http\Requests\DoctorUpdateRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Doctor $doctor, DoctorUpdateRequest $request)
+    public function update(DoctorUpdateRequest $request,Doctor $doctor)
     {
 
         $doctor->update($request->validated());
@@ -73,7 +73,7 @@ class DoctorManagementController extends Controller
     }
 
     /**
-     * Summary of destroy
+     * Remove the specified doctor.
      * @param \Modules\DoctorManagement\Models\Doctor $doctor
      * @return \Illuminate\Http\JsonResponse
      */

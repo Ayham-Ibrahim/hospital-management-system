@@ -16,7 +16,7 @@ use Modules\DepartmentManagement\Http\Requests\Room\UpdateRoomRequest;
 class RoomController extends Controller
 {
     /**
-     * Display a listing of the rooms
+     * Display a listing of rooms with filtering by status and type.
      *  using filters according to status and type of room.
      * @return \Illuminate\Http\JsonResponse
      */
@@ -36,7 +36,7 @@ class RoomController extends Controller
     }
 
     /**
-     * Summary of store
+     * Store a newly created room.
      * @param \Modules\DepartmentManagement\Http\Requests\Room\StoreRoomRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -47,7 +47,7 @@ class RoomController extends Controller
     }
 
     /**
-     * Summary of show
+     * Show details of a specific room.
      * @param \Modules\DepartmentManagement\Models\Room $room
      * @return \Illuminate\Http\JsonResponse
      */
@@ -63,7 +63,7 @@ class RoomController extends Controller
     }
 
     /**
-     * Summary of update
+     * Update an existing room.
      * @param \Modules\DepartmentManagement\Models\Room $rooom
      * @param \Modules\DepartmentManagement\Http\Requests\Room\UpdateRoomRequest $request
      * @return \Illuminate\Http\JsonResponse
@@ -76,7 +76,7 @@ class RoomController extends Controller
 
 
     /**
-     * Summary of destroy
+     * Delete a room.
      * @param \Modules\DepartmentManagement\Models\Room $room
      * @return \Illuminate\Http\JsonResponse
      */
