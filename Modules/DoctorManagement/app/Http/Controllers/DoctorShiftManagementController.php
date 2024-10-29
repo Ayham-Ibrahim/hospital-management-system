@@ -8,9 +8,27 @@ use Modules\DoctorManagement\Models\DoctorShift;
 use Modules\DoctorManagement\Http\Requests\DoctorShiftStoreRequest;
 use Modules\DoctorManagement\Http\Requests\DoctorShiftUpdateRequest;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
 class DoctorShiftManagementController extends Controller
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+            new Middleware('permission:view doctor_shift', only: ['index']),
+            new Middleware('permission:add doctor_shift', only: ['store']),
+            new Middleware('permission:view doctor_shift by id', only: ['show']),
+            new Middleware('permission:edit doctor_shift', only: ['update']),
+            new Middleware('permission:delete doctor_shift', only: ['destroy']),
+        ];
+    }
+
+
     /**
      * Display a listing of the DoctorShifts.
      * @return \Illuminate\Http\JsonResponse

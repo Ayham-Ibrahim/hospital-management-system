@@ -41,21 +41,12 @@ class AuthController extends Controller
      * @param \Modules\AuthManagement\Http\Requests\Auth\StoreUserRequest $request
      * @return mixed|\Illuminate\Http\JsonResponse
      */
-    public function register(StoreUserRequest $request)
+    public function addUser(StoreUserRequest $request)
     {
+        $user = User::create($request->validated());
+        $user->assignRole($request->role_name);
 
-        try {
-            $user = User::create($request->validated());
-            // create token
-            $token = $user->createToken('Api Token Of ' . $user->name)->plainTextToken;
-
-            return $this->success([
-                'user' => $user,
-                'token' => $token
-            ], 201);
-        } catch (\Illuminate\Database\QueryException $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        return $this->success($user, 'User created successfully');
     }
 
 

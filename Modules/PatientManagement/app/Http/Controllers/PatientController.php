@@ -10,9 +10,25 @@ use Modules\PatientManagement\Http\Requests\Patient\StorePatientServiceRequest;
 use  Modules\DepartmentManagement\Models\Service;
 use Modules\PatientManagement\Models\Patient;
 use Illuminate\Http\Request;
-
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 class PatientController extends Controller
 {
+     /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+            new Middleware('permission:view patients', only: ['index']),
+            new Middleware('permission:add patient', only: ['store']),
+            new Middleware('permission:view patient by id', only: ['show']),
+            new Middleware('permission:edit patient', only: ['update']),
+            new Middleware('permission:delete patient', only: ['destroy']),
+        ];
+    }
+
     /**
      * Get a paginated list of patients along with their associated services.
      *

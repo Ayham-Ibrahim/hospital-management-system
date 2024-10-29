@@ -21,7 +21,7 @@ use Modules\AuthManagement\Http\Controllers\PermissionController;
 /**
  * Route for registration proccess
  */
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('/addUser', [AuthController::class, 'addUser']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -35,8 +35,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
      // routes for permissions operation
     Route::apiResource('permissions',PermissionController::class);
-
-
 
 });
 

@@ -26,46 +26,64 @@ class PermissionSeeder extends Seeder
             'view permission by id',
             'edit permission',
             'delete permission',
+
+            //department
             'view departments',
             'add department',
             'view department by id',
             'edit department',
             'delete department',
+
+            //room
             'view rooms',
             'add room',
             'view room by id',
             'edit room',
             'delete room',
+
+            //services
             'view services',
             'add service',
             'view service by id',
             'edit service',
             'delete service',
+
+            //doctors
             'view doctors',
             'add doctor',
             'view doctor by id',
             'edit doctor',
             'delete doctor',
+
+            //doctor shift
             'view doctor_shift',
             'add doctor_shift',
             'view doctor_shift by id',
             'edit doctor_shift',
             'delete doctor_shift',
+
+            //patient
             'view patients',
             'add patient',
             'view patient by id',
             'edit patient',
             'delete patient',
+
+            //medical record
             'view medical_records',
             'add medical_record',
             'view medical_record by id',
             'edit medical_record',
             'delete medical_record',
+
+            // appointment
             'view appointments',
             'add appointment',
             'view appointment by id',
             'edit appointment',
             'delete appointment',
+
+            //surgical operation
             'view surjical_operations',
             'add surjical_operation',
             'view surjical_operation by id',

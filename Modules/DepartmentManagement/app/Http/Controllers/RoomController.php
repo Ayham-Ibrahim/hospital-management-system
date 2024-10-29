@@ -12,9 +12,26 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Modules\DepartmentManagement\Transformers\Room\RoomResource;
 use Modules\DepartmentManagement\Http\Requests\Room\StoreRoomRequest;
 use Modules\DepartmentManagement\Http\Requests\Room\UpdateRoomRequest;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
 class RoomController extends Controller
 {
+     /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+            new Middleware('permission:view rooms', only: ['index']),
+            new Middleware('permission:add room', only: ['store']),
+            new Middleware('permission:view room by id', only: ['show']),
+            new Middleware('permission:edit room', only: ['update']),
+            new Middleware('permission:delete room', only: ['destroy']),
+        ];
+    }
+
     /**
      * Display a listing of rooms with filtering by status and type.
      *  using filters according to status and type of room.

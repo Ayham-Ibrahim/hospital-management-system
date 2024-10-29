@@ -9,9 +9,26 @@ use  Modules\DoctorManagement\Models\Doctor;
 use Modules\DoctorManagement\Transformers\DoctorResource;
 use Modules\DoctorManagement\Http\Requests\DoctorStoreRequest;
 use Modules\DoctorManagement\Http\Requests\DoctorUpdateRequest;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
 class DoctorManagementController extends Controller
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+            new Middleware('permission:view doctors', only: ['index']),
+            new Middleware('permission:add doctor', only: ['store']),
+            new Middleware('permission:view doctor by id', only: ['show']),
+            new Middleware('permission:edit doctor', only: ['update']),
+            new Middleware('permission:delete doctor', only: ['destroy']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      * @return \Illuminate\Http\JsonResponse

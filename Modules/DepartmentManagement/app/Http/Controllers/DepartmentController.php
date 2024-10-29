@@ -4,17 +4,35 @@ namespace Modules\DepartmentManagement\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
+use Spatie\Permission\Traits\HasRoles;
 use Modules\DepartmentManagement\Models\Department;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Modules\DepartmentManagement\Transformers\Department\DepartmentResource;
 use Modules\DepartmentManagement\Http\Requests\Department\StoreDepartmentRequest;
 use Modules\DepartmentManagement\Http\Requests\Department\UpdateDepartmentRequest;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
 class DepartmentController extends Controller
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+            new Middleware('permission:view departments', only: ['index']),
+            new Middleware('permission:add department', only: ['store']),
+            new Middleware('permission:view department by id', only: ['show']),
+            new Middleware('permission:edit department', only: ['update']),
+            new Middleware('permission:delete department', only: ['destroy']),
+        ];
+    }
 
     /**
      *  Display a listing of departments with caching and filtering.

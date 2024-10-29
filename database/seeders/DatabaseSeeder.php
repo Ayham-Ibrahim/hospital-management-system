@@ -5,12 +5,16 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Modules\DepartmentManagement\Database\Seeders\DepartmentSeeder;
-use Modules\DepartmentManagement\Models\Department;
-use Modules\DepartmentManagement\Models\Room;
-use Modules\DepartmentManagement\Models\Service;
-use Modules\PatientManagement\Models\Patient;
 use Modules\DoctorManagement\Models\Doctor;
+use Modules\DepartmentManagement\Models\Room;
+use Modules\PatientManagement\Models\Patient;
+use Modules\DepartmentManagement\Models\Service;
+use Modules\DepartmentManagement\Models\Department;
+use Modules\AuthManagement\Database\Seeders\PermissionSeeder;
+use Modules\AuthManagement\Database\Seeders\SuperAdminSeeder;
+use Modules\AuthManagement\Database\Seeders\DoctorManagerSeeder;
+use Modules\DepartmentManagement\Database\Seeders\DepartmentSeeder;
+use Modules\AuthManagement\Database\Seeders\DepartmentManagerSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -37,6 +41,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             // DepartmentSeeder::class,
+            PermissionSeeder::class,
+            SuperAdminSeeder::class,
+            DepartmentManagerSeeder::class,
+            DoctorManagerSeeder::class,
         ]);
     }
 }
