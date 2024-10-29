@@ -13,9 +13,26 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Modules\DepartmentManagement\Transformers\Service\ServicesResource;
 use Modules\DepartmentManagement\Http\Requests\Services\StoreServiceRequest;
 use Modules\DepartmentManagement\Http\Requests\Services\UpdateServiceRequest;
-
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 class ServiceController extends Controller
 {
+
+     /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+            new Middleware('permission:view services', only: ['index']),
+            new Middleware('permission:add service', only: ['store']),
+            new Middleware('permission:view service by id', only: ['show']),
+            new Middleware('permission:edit service', only: ['update']),
+            new Middleware('permission:delete service', only: ['destroy']),
+        ];
+    }
+
     /**
      * Display a listing of services with caching and filtering by name.
      *  using filters according to name and use caching.

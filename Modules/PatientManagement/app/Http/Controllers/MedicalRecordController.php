@@ -9,9 +9,25 @@ use Modules\PatientManagement\Models\Patient;
 use Modules\PatientManagement\Transformers\MedicalRecordResource;
 use Modules\PatientManagement\Http\Requests\MedicalRecord\StoreMedicalRecord;
 use Modules\PatientManagement\Http\Requests\MedicalRecord\UpdateMedicalRecord;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
 class MedicalRecordController extends Controller
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+            new Middleware('permission:view medical_records', only: ['index']),
+            new Middleware('permission:add medical_record', only: ['store']),
+            new Middleware('permission:view medical_record by id', only: ['show']),
+            new Middleware('permission:edit medical_record', only: ['update']),
+            new Middleware('permission:delete medical_record', only: ['destroy']),
+        ];
+    }
     /**
      * Get a paginated list of medical_records along with their associated patients ,doctors and rooms.
      *

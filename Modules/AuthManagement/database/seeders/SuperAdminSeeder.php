@@ -27,7 +27,7 @@ class SuperAdminSeeder extends Seeder
             'name' => 'Super Administrator',
             'email' => 'admin@admin.com',
             'password' => Hash::make('password'),
-            // 'role_name' => 'SuperAdmin',
+            'role_name' => 'SuperAdmin',
         ]);
 
         $user->assignRole('SuperAdmin');

@@ -10,10 +10,25 @@ use Modules\ScheduleManagement\Transformers\OperationResource;
 use Modules\ScheduleManagement\Http\Requests\Operation\StoreOperationRequest;
 use Modules\ScheduleManagement\Http\Requests\Operation\UpdateOperationRequest;
 use Illuminate\Http\Request;
-
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
 class SurjicalOperationController extends Controller
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+            new Middleware('permission:view surjical_operations', only: ['index']),
+            new Middleware('permission:add surjical_operation', only: ['store']),
+            new Middleware('permission:view surjical_operation by id', only: ['show']),
+            new Middleware('permission:edit surjical_operation', only: ['update']),
+            new Middleware('permission:delete surjical_operation', only: ['destroy']),
+        ];
+    }
 
     /**
      * Get a paginated list of SurjicalOperation.

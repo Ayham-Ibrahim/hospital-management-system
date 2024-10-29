@@ -7,9 +7,27 @@ use App\Http\Controllers\Controller;
 use Modules\ScheduleManagement\Models\Appointment;
 use Modules\ScheduleManagement\Http\Requests\Appointment\StoreAppointnmentRequest;
 use Modules\ScheduleManagement\Http\Requests\Appointment\UpdateAppointnmentRequest;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
 class AppointmentController extends Controller
 {
+   
+     /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+            new Middleware('permission:view appointments', only: ['index']),
+            new Middleware('permission:add appointment', only: ['store']),
+            new Middleware('permission:view appointment by id', only: ['show']),
+            new Middleware('permission:edit appointment', only: ['update']),
+            new Middleware('permission:delete appointment', only: ['destroy']),
+        ];
+    }
+
     /**
      * Get a paginated list of appointments.
      *
